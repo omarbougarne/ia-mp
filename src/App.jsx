@@ -16,7 +16,7 @@ function App() {
       {/* Route for the Home page */}
   
   <Route path="/IAMPHomepage" element={<IAMPHomepage />} />
-      <Route path="/about" element={<AboutUs />} />
+      <Route path="/about" element={<About />} />
       <Route path="/IAMPContactPage" element={<IAMPContactPage />} />
 
       <Route path="/IAMPCategoriesPage" element={<IAMPCategoriesPage />} />

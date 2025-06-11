@@ -36,19 +36,19 @@ const IAMPContactPage = () => {
       icon: <MapPin className="w-8 h-8" />,
       title: "Address",
       details: "71-75 Shelton Street, London, United Kingdom, WC2H 9JQ",
-      gradient: "linear-gradient(135deg, #10b981, #059669)"
+      gradient: "linear-gradient(135deg, #00d4ff, #0099cc)"
     },
     {
       icon: <Clock className="w-8 h-8" />,
       title: "Business Hours",
       details: "Mon-Fri 9:00AM - 5:00PM",
-      gradient: "linear-gradient(135deg, #9333ea, #7c3aed)"
+      gradient: "linear-gradient(135deg, #00d4ff, #0099cc)"
     },
     {
       icon: <Phone className="w-8 h-8" />,
       title: "Phone",
       details: "123-456-7890",
-      gradient: "linear-gradient(135deg, #FFD700, #FFA500)"
+      gradient: "linear-gradient(135deg, #00d4ff, #0099cc)"
     },
     {
       icon: <Mail className="w-8 h-8" />,

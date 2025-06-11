@@ -1,7 +1,7 @@
 import './App.css'
 import { Routes, Route } from "react-router-dom";
 import IAMPHomepage from "./Components/IAMPHomepage";
-import AboutUs from "./Components/AboutUs"
+import About from "./Components/About"
 import { BrowserRouter as Router } from "react-router-dom";
 import IAMPCategoriesPage from "./Components/IAMPCategoriesPage"
 import IAMPContactPage from "./Components/IAMPContactPage"

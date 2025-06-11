@@ -88,57 +88,6 @@ const About = () => {
     }
   ];
 
-  const pricingPlans = [
-    {
-      name: "Associate",
-      type: "MEMBER",
-      subtitle: "Aspiring professionals / mid-career",
-      price: "Basic",
-      features: [
-        "50% E-discount on training",
-        "Advanced Certificate (1 included)",
-        "Digital community platform access",
-        "Certificate + ID Card",
-        "Free access to all IAMP events",
-        "Monthly industry newsletters"
-      ],
-      popular: false
-    },
-    {
-      name: "Fellow",
-      type: "MEMBER", 
-      subtitle: "Senior individuals / Experts",
-      price: "Professional",
-      features: [
-        "60% E-discount on training",
-        "Advanced Certificate (1 included)",
-        "Certificate + ID Card",
-        "Digital community platform access",
-        "Free access to all IAMP events",
-        "CV inserted into IAMP job network",
-        "Priority customer support"
-      ],
-      popular: true
-    },
-    {
-      name: "Corporate",
-      type: "MEMBER",
-      subtitle: "Companies / Organizations", 
-      price: "Premium",
-      features: [
-        "60% E-discount on training",
-        "Advanced Certificate (1 included)",
-        "Company Certificate + ID Card",
-        "Free Access to 3 Webinars / Year",
-        "Free access to all IAMP events",
-        "CV inserted into IAMP job network",
-        "Company branding opportunities",
-        "Dedicated account manager"
-      ],
-      popular: false
-    }
-  ];
-
   return (
     <div style={{
       background: 'linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #2d3561 50%, #1a1f3a 75%, #0a0e27 100%)',
@@ -164,7 +113,7 @@ const About = () => {
           </div>
           
           <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-            {['About', 'Mission', 'Membership', 'Academy', 'Contact'].map((item) => (
+            {['About', 'Mission', 'Contact'].map((item) => (
               <a key={item} href={`#${item.toLowerCase()}`} style={{
                 color: '#ffffff',
                 textDecoration: 'none',
@@ -520,139 +469,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* Membership Section */}
-      <section id="membership" style={{ padding: '6rem 0', background: 'rgba(0, 0, 0, 0.2)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
-          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-            <h2 style={{
-              fontSize: '3rem',
-              fontWeight: 'bold',
-              marginBottom: '1rem',
-              background: 'linear-gradient(135deg, #ffffff, #00d4ff)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>Membership Plans</h2>
-            <p style={{ fontSize: '1.2rem', color: '#a0aec0', maxWidth: '800px', margin: '0 auto' }}>
-              Become part of a global network of maritime professionals. Whether you're a student, officer, or institutional partner — there's a membership for you.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '2rem' }}>
-            {pricingPlans.map((plan, index) => (
-              <div key={index} style={{
-                background: plan.popular 
-                  ? 'linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(45, 53, 97, 0.3))'
-                  : 'linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(45, 53, 97, 0.1))',
-                padding: '2.5rem',
-                borderRadius: '20px',
-                border: plan.popular ? '2px solid #00d4ff' : '1px solid rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(20px)',
-                position: 'relative',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-10px)';
-                e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 212, 255, 0.2)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}>
-                {plan.popular && (
-                  <div style={{
-                    position: 'absolute',
-                    top: '-10px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '20px',
-                    fontSize: '0.8rem',
-                    fontWeight: 'bold'
-                  }}>
-                    MOST POPULAR
-                  </div>
-                )}
-                <div style={{ textAlign: 'center' }}>
-                  <h3 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>{plan.price}</h3>
-                  <p style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#00d4ff', marginBottom: '0.5rem' }}>{plan.name} {plan.type}</p>
-                  <p style={{ color: '#a0aec0', marginBottom: '2rem' }}>{plan.subtitle}</p>
-                  
-                  <ul style={{ listStyle: 'none', padding: 0, marginBottom: '2rem' }}>
-                    {plan.features.map((feature, i) => (
-                      <li key={i} style={{ padding: '0.5rem 0', color: '#cbd5e0' }}>✓ {feature}</li>
-                    ))}
-                  </ul>
-                  
-                  <button style={{
-                    width: '100%',
-                    background: plan.popular 
-                      ? 'linear-gradient(135deg, #00d4ff, #0099cc)'
-                      : 'transparent',
-                    border: plan.popular ? 'none' : '2px solid rgba(255, 255, 255, 0.2)',
-                    padding: '1rem',
-                    borderRadius: '50px',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease'
-                  }}>
-                    Choose Plan
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Academy CTA Section */}
-      <section id="academy" style={{ padding: '6rem 0' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem', textAlign: 'center' }}>
-          <div style={{
-            background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-            padding: '4rem',
-            borderRadius: '20px',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(20px)'
-          }}>
-            <h2 style={{
-              fontSize: '3rem',
-              fontWeight: 'bold',
-              marginBottom: '1rem',
-              background: 'linear-gradient(135deg, #ffffff, #00d4ff)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>IAMP Academy</h2>
-            <p style={{ fontSize: '1.3rem', color: '#a0aec0', marginBottom: '2rem', maxWidth: '700px', margin: '0 auto 2rem' }}>
-              Enhance your maritime expertise with our comprehensive training programs and internationally recognized certifications.
-            </p>
-            <button style={{
-              background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
-              border: 'none',
-              padding: '1.2rem 3rem',
-              borderRadius: '50px',
-              color: 'white',
-              fontWeight: 'bold',
-              fontSize: '1.2rem',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              boxShadow: '0 4px 15px rgba(0, 212, 255, 0.3)'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.transform = 'translateY(-3px)';
-              e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = '0 4px 15px rgba(0, 212, 255, 0.3)';
-            }}>
-              Explore Academy Programs
-            </button>
-          </div>
-        </div>
-      </section>
 
       {/* Contact Section */}
       <section id="contact" style={{ padding: '6rem 0', background: 'rgba(0, 0, 0, 0.2)' }}>
@@ -806,7 +622,7 @@ const About = () => {
             <div>
               <h4 style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '1rem' }}>Quick Links</h4>
               <ul style={{ listStyle: 'none', padding: 0 }}>
-                {['About Us', 'Our Mission', 'Membership', 'Academy', 'Contact'].map((link) => (
+                {['About Us', 'Our Mission', 'Contact'].map((link) => (
                   <li key={link} style={{ marginBottom: '0.5rem' }}>
                     <a href={`#${link.toLowerCase().replace(' ', '')}`} style={{
                       color: '#a0aec0',

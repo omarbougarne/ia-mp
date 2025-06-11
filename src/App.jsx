@@ -1,7 +1,7 @@
 import './App.css'
 import { Routes, Route } from "react-router-dom";
 import IAMPHomepage from "./Components/IAMPHomepage";
-import AboutUs from "./Components/AboutUs"
+import About from "./Components/About"
 import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       {/* Route for the Home page */}
   
   <Route path="/IAMPHomepage" element={<IAMPHomepage />} />
-      <Route path="/about" element={<AboutUs />} />
+      <Route path="/About" element={<About />} />
       </Routes>
       </Router>
     </>

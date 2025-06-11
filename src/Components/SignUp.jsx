@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Anchor, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, Users, Globe, User, Phone, Building } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-export default function IAMPSignUp() {
+export default function SignUp() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -22,6 +24,11 @@ export default function IAMPSignUp() {
 
   const handleSubmit = () => {
     console.log('Sign up attempt:', { ...formData, agreeToTerms, subscribeNewsletter });
+  };
+
+  // Function to navigate to signin page
+  const goToSignIn = () => {
+    navigate('/signin');
   };
 
   return (
@@ -81,17 +88,7 @@ export default function IAMPSignUp() {
       }}>
         {/* Left Side - Branding and Info */}
         <div style={{ padding: '2rem 0' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem' }}>
-            <Anchor style={{ color: '#00d4ff', width: '3rem', height: '3rem' }} />
-            <span style={{ 
-              fontSize: '2rem', 
-              fontWeight: 'bold', 
-              background: 'linear-gradient(135deg, #00d4ff, #0099cc)', 
-              WebkitBackgroundClip: 'text', 
-              WebkitTextFillColor: 'transparent' 
-            }}>IAMP</span>
-          </div>
-
+          
           <h1 style={{
             fontSize: '3rem',
             fontWeight: 'bold',
@@ -136,15 +133,23 @@ export default function IAMPSignUp() {
             <p style={{ color: '#00d4ff', fontWeight: 'bold', marginBottom: '0.5rem' }}>
               Already have an account?
             </p>
-            <a href="#" style={{
-              color: '#ffffff',
-              textDecoration: 'none',
-              transition: 'color 0.3s ease'
-            }}
-            onMouseEnter={(e) => e.target.style.color = '#00d4ff'}
-            onMouseLeave={(e) => e.target.style.color = '#ffffff'}>
+            <button
+              onClick={goToSignIn}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '1rem',
+                cursor: 'pointer',
+                transition: 'color 0.3s ease',
+                padding: 0
+              }}
+              onMouseEnter={(e) => e.target.style.color = '#00d4ff'}
+              onMouseLeave={(e) => e.target.style.color = '#ffffff'}
+            >
               Sign in to your existing account →
-            </a>
+            </button>
           </div>
         </div>
 
@@ -633,16 +638,23 @@ export default function IAMPSignUp() {
             <div style={{ textAlign: 'center', marginTop: '1rem' }}>
               <span style={{ color: '#a0aec0', fontSize: '0.9rem' }}>
                 Already have an account?{' '}
-                <a href="#" style={{
-                  color: '#00d4ff',
-                  textDecoration: 'none',
-                  fontWeight: '500',
-                  transition: 'color 0.3s ease'
-                }}
-                onMouseEnter={(e) => e.target.style.color = '#0099cc'}
-                onMouseLeave={(e) => e.target.style.color = '#00d4ff'}>
+                <button
+                  onClick={goToSignIn}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#00d4ff',
+                    textDecoration: 'none',
+                    fontWeight: '500',
+                    fontSize: '0.9rem',
+                    cursor: 'pointer',
+                    transition: 'color 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => e.target.style.color = '#0099cc'}
+                  onMouseLeave={(e) => e.target.style.color = '#00d4ff'}
+                >
                   Sign In
-                </a>
+                </button>
               </span>
             </div>
           </div>

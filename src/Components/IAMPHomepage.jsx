@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Star, ChevronDown, Users, Award, Globe, Shield, Anchor, Waves, ArrowRight, Mail, Phone, MapPin, Menu, X } from 'lucide-react';
-
+import IAMPNavbar from './IAMPNavbar'; // Import the navbar component
+import IAMPFooter from './IAMPFooter'; // Import the footer component
+import { Link } from 'react-router-dom';
 const IAMPHomepage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -136,70 +138,17 @@ const IAMPHomepage = () => {
       color: '#ffffff',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
-      {/* Navigation */}
-      <nav style={{
-        position: 'fixed',
-        top: 0,
-        width: '100%',
-        zIndex: 1000,
-        background: scrollY > 50 ? 'rgba(10, 14, 39, 0.95)' : 'transparent',
-        backdropFilter: scrollY > 50 ? 'blur(20px)' : 'none',
-        borderBottom: scrollY > 50 ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
-        transition: 'all 0.3s ease'
-      }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Anchor style={{ color: '#00d4ff', width: '2rem', height: '2rem' }} />
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #00d4ff, #0099cc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>IAMP</span>
-          </div>
-          
-          <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-            {['About', 'Projects', 'Membership', 'Portfolio', 'Contact'].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} style={{
-                color: '#ffffff',
-                textDecoration: 'none',
-                fontWeight: '500',
-                transition: 'all 0.3s ease',
-                position: 'relative',
-                padding: '0.5rem 0'
-              }}
-              onMouseEnter={(e) => e.target.style.color = '#00d4ff'}
-              onMouseLeave={(e) => e.target.style.color = '#ffffff'}>
-                {item}
-              </a>
-            ))}
-            <button style={{
-              background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
-              border: 'none',
-              padding: '0.75rem 1.5rem',
-              borderRadius: '50px',
-              color: 'white',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              boxShadow: '0 4px 15px rgba(0, 212, 255, 0.3)'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.transform = 'translateY(-2px)';
-              e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = '0 4px 15px rgba(0, 212, 255, 0.3)';
-            }}>
-              Join Now
-            </button>
-          </div>
-        </div>
-      </nav>
-
+      {/* Use the extracted navbar component */}
+      <IAMPNavbar />
+      
       {/* Hero Section */}
-      <section style={{
+      <section id="home" style={{
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'center',
         position: 'relative',
-        overflow: 'hidden'
+        paddingTop: '80px'
       }}>
         {/* Animated Background Elements */}
         <div style={{
@@ -253,28 +202,36 @@ const IAMPHomepage = () => {
               Whether you're just starting or advancing in your career, IAMP offers globally recognized certifications and a support network designed to help you succeed in the maritime industry.
             </p>
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <button style={{
-                background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
-                border: 'none',
-                padding: '1rem 2rem',
-                borderRadius: '50px',
-                color: 'white',
-                fontWeight: 'bold',
-                fontSize: '1.1rem',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 4px 15px rgba(0, 212, 255, 0.3)'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = 'translateY(-3px)';
-                e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 4px 15px rgba(0, 212, 255, 0.3)';
-              }}>
-                Get Started <ArrowRight style={{ marginLeft: '0.5rem', width: '1.2rem', height: '1.2rem' }} />
-              </button>
+            <a
+    href="/pricing" // This is the standard HTML href attribute
+    style={{
+        background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
+        border: 'none',
+        padding: '1rem 2rem',
+        borderRadius: '50px',
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: '1.1rem',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+        boxShadow: '0 4px 15px rgba(0, 212, 255, 0.3)',
+        // IMPORTANT: Add these styles to make <a> behave like a block/button
+        display: 'inline-flex', // Use inline-flex to center content and allow gap
+        alignItems: 'center',
+        justifyContent: 'center',
+        textDecoration: 'none', // Remove underline from link
+        gap: '0.5rem' // Re-add gap for the icon
+    }}
+    onMouseEnter={(e) => {
+        e.target.style.transform = 'translateY(-3px)';
+        e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4)';
+    }}
+    onMouseLeave={(e) => {
+        e.target.style.transform = 'translateY(0)';
+        e.target.style.boxShadow = '0 4px 15px rgba(0, 212, 255, 0.3)';
+    }}>
+    View Programs & Pricing<ArrowRight style={{ width: '1.2rem', height: '1.2rem' }} /> {/* Removed marginLeft from ArrowRight since gap handles it */}
+</a>
               <button style={{
                 background: 'transparent',
                 border: '2px solid rgba(255, 255, 255, 0.2)',
@@ -762,95 +719,8 @@ const IAMPHomepage = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer style={{
-        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(10, 14, 39, 0.9))',
-        padding: '3rem 0 1rem',
-        borderTop: '1px solid rgba(255, 255, 255, 0.1)'
-      }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', marginBottom: '2rem' }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-                <Anchor style={{ color: '#00d4ff', width: '2rem', height: '2rem' }} />
-                <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #00d4ff, #0099cc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>IAMP</span>
-              </div>
-              <p style={{ color: '#a0aec0', lineHeight: '1.6' }}>
-                Empowering maritime professionals worldwide through excellence, safety, and innovation in the maritime sector.
-              </p>
-            </div>
-            
-            <div>
-              <h4 style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '1rem' }}>Quick Links</h4>
-              <ul style={{ listStyle: 'none', padding: 0 }}>
-                {['About Us', 'Our Projects', 'Membership', 'Portfolio', 'Contact'].map((link) => (
-                  <li key={link} style={{ marginBottom: '0.5rem' }}>
-                    <a href={`#${link.toLowerCase().replace(' ', '')}`} style={{
-                      color: '#a0aec0',
-                      textDecoration: 'none',
-                      transition: 'color 0.3s ease'
-                    }}
-                    onMouseEnter={(e) => e.target.style.color = '#00d4ff'}
-                    onMouseLeave={(e) => e.target.style.color = '#a0aec0'}>
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <div>
-              <h4 style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '1rem' }}>Services</h4>
-              <ul style={{ listStyle: 'none', padding: 0 }}>
-                {['Training Programs', 'Certifications', 'Consultancy', 'Compliance Support'].map((service) => (
-                  <li key={service} style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ color: '#a0aec0' }}>{service}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <div>
-              <h4 style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '1rem' }}>Connect With Us</h4>
-              <div style={{ display: 'flex', gap: '1rem' }}>
-                {['Facebook', 'LinkedIn', 'Twitter', 'Instagram'].map((social) => (
-                  <div key={social} style={{
-                    width: '40px',
-                    height: '40px',
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.background = 'rgba(0, 212, 255, 0.2)';
-                    e.target.style.transform = 'translateY(-2px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.background = 'rgba(255, 255, 255, 0.1)';
-                    e.target.style.transform = 'translateY(0)';
-                  }}>
-                    <span style={{ fontSize: '0.8rem', color: '#00d4ff' }}>{social[0]}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          
-          <div style={{
-            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-            paddingTop: '2rem',
-            textAlign: 'center'
-          }}>
-            <p style={{ color: '#a0aec0' }}>
-              © 2025 International Association of Maritime Professionals (IAMP). All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+     {/* Footer */}
+     <IAMPFooter />
 
       {/* Floating Action Button */}
       <div style={{

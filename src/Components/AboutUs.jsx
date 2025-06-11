@@ -3,7 +3,7 @@ import React from 'react';
 // Styles defined within the component file
 const styles = {
   aboutUsContainer: {
-    width: '100%',
+    width: '70%',
     // margin: '0 auto',
     // padding: '40px 20px',
     backgroundColor: '#FFFFFF', 

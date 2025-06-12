@@ -15,7 +15,7 @@ const IAMPFooter = () => {
     { name: 'Our History', href: '/our-history' },
     { name: 'Admission Policy', href: '/admission-policy' },
     { name: 'Benefits', href: '/benefits' },
-    { name: 'Partners', href: '#' }
+    { name: 'Partners', href: '/IAMPPartnersPage' }
   ];
 
   return (

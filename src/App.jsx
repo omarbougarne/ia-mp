@@ -13,7 +13,7 @@ import IAMPContactPage from "./Components/IAMPContactPage"
 import IAMPNavbar from "./Components/IAMPNavbar"
 import IAMPFooter from "./Components/IAMPFooter"
 import IAMPPricingPage from "./Components/IAMPPricingPage"
-
+import IAMPPartnersPage from "./Components/IAMPPartnersPage"
 
 function App() {
   return (
@@ -35,6 +35,7 @@ function App() {
       <Route path="/IAMPCategoriesPage" element={<IAMPCategoriesPage />} />
       <Route path="/IAMPFooter" element={<IAMPFooter />} />
       <Route path="/Pricing" element={<IAMPPricingPage />} />
+      <Route path="/IAMPPartnersPage" element={<IAMPPartnersPage />} />
 
       
       </Routes>

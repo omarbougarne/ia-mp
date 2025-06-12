@@ -3,11 +3,11 @@ import { Mail, Phone, MapPin, Anchor, Facebook, Youtube, Twitter } from 'lucide-
 
 const IAMPFooter = () => {
   const navigationLinks = [
-    { name: 'Home', href: '/IAMPHomepage' },
+    { name: 'Home', href: '/' },
     { name: 'About Us', href: '/about' },
-    { name: 'Blog', href: '#' },
+    { name: 'Blog', href: '/blog' },
     { name: 'Category', href: '/IAMPCategoriesPage' },
-    { name: 'Membership', href: '#' },
+    { name: 'Membership', href: '/Membership' },
     { name: 'Contact', href: '/IAMPContactPage' }
   ];
 

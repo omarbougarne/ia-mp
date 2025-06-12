@@ -1,4 +1,5 @@
 import './App.css'
+import './index.css'; // or './App.css' depending on your setup
 import { Routes, Route } from "react-router-dom";
 import IAMPHomepage from "./Components/IAMPHomepage";
 import About from "./Components/About"
@@ -10,10 +11,12 @@ import AdmissionPolicy from "./Components/AdmissionPolicy"
 import { BrowserRouter as Router } from "react-router-dom";
 import IAMPCategoriesPage from "./Components/IAMPCategoriesPage"
 import IAMPContactPage from "./Components/IAMPContactPage"
+import IAMPBlogPage from "./Components/IAMPBlogPage"
 import IAMPNavbar from "./Components/IAMPNavbar"
 import IAMPFooter from "./Components/IAMPFooter"
 import IAMPPricingPage from "./Components/IAMPPricingPage"
 import IAMPPartnersPage from "./Components/IAMPPartnersPage"
+import Membership from "./Components/Membership";
 
 function App() {
   return (
@@ -22,7 +25,7 @@ function App() {
     <Routes>
       {/* Route for the Home page */}
   
-  <Route path="/IAMPHomepage" element={<IAMPHomepage />} />
+  <Route path="/" element={<IAMPHomepage />} />
       <Route path="/about" element={<About />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
@@ -36,6 +39,10 @@ function App() {
       <Route path="/IAMPFooter" element={<IAMPFooter />} />
       <Route path="/Pricing" element={<IAMPPricingPage />} />
       <Route path="/IAMPPartnersPage" element={<IAMPPartnersPage />} />
+      <Route path="/Membership" element={<Membership />} />
+      <Route path="/blog" element={<IAMPBlogPage />} />
+
+      
 
       
       </Routes>

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Anchor, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, Users, Globe, User, Phone, Building } from 'lucide-react';
 import IAMPNavbar from './IAMPNavbar'; // Import the navbar component
+import { useNavigate } from 'react-router-dom';
 
-export default function IAMPSignUp() {
+export default function SignUp() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -23,6 +25,11 @@ export default function IAMPSignUp() {
 
   const handleSubmit = () => {
     console.log('Sign up attempt:', { ...formData, agreeToTerms, subscribeNewsletter });
+  };
+
+  // Function to navigate to signin page
+  const goToSignIn = () => {
+    navigate('/signin');
   };
 
   return (
@@ -136,15 +143,23 @@ export default function IAMPSignUp() {
             <p style={{ color: '#00d4ff', fontWeight: 'bold', marginBottom: '0.5rem' }}>
               Already have an account?
             </p>
-            <a href="#" style={{
-              color: '#ffffff',
-              textDecoration: 'none',
-              transition: 'color 0.3s ease'
-            }}
-            onMouseEnter={(e) => e.target.style.color = '#00d4ff'}
-            onMouseLeave={(e) => e.target.style.color = '#ffffff'}>
+            <button
+              onClick={goToSignIn}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#ffffff',
+                textDecoration: 'none',
+                fontSize: '1rem',
+                cursor: 'pointer',
+                transition: 'color 0.3s ease',
+                padding: 0
+              }}
+              onMouseEnter={(e) => e.target.style.color = '#00d4ff'}
+              onMouseLeave={(e) => e.target.style.color = '#ffffff'}
+            >
               Sign in to your existing account →
-            </a>
+            </button>
           </div>
         </div>
 
@@ -635,16 +650,23 @@ export default function IAMPSignUp() {
             <div style={{ textAlign: 'center', marginTop: '1rem' }}>
               <span style={{ color: '#a0aec0', fontSize: '0.9rem' }}>
                 Already have an account?{' '}
-                <a href="#" style={{
-                  color: '#00d4ff',
-                  textDecoration: 'none',
-                  fontWeight: '500',
-                  transition: 'color 0.3s ease'
-                }}
-                onMouseEnter={(e) => e.target.style.color = '#0099cc'}
-                onMouseLeave={(e) => e.target.style.color = '#00d4ff'}>
+                <button
+                  onClick={goToSignIn}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#00d4ff',
+                    textDecoration: 'none',
+                    fontWeight: '500',
+                    fontSize: '0.9rem',
+                    cursor: 'pointer',
+                    transition: 'color 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => e.target.style.color = '#0099cc'}
+                  onMouseLeave={(e) => e.target.style.color = '#00d4ff'}
+                >
                   Sign In
-                </a>
+                </button>
               </span>
             </div>
           </div>

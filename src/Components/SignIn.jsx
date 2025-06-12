@@ -78,17 +78,7 @@ export default function IAMPSignIn() {
       }}>
         {/* Left Side - Branding and Info */}
         <div style={{ padding: '2rem 0' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem' }}>
-            <Anchor style={{ color: '#00d4ff', width: '3rem', height: '3rem' }} />
-            <span style={{ 
-              fontSize: '2rem', 
-              fontWeight: 'bold', 
-              background: 'linear-gradient(135deg, #00d4ff, #0099cc)', 
-              WebkitBackgroundClip: 'text', 
-              WebkitTextFillColor: 'transparent' 
-            }}>IAMP</span>
-          </div>
-
+          
           <h1 style={{
             fontSize: '3rem',
             fontWeight: 'bold',

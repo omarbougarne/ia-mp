@@ -531,7 +531,6 @@ const IAMPContactPage = () => {
       </section>
 
      {/* Footer */}
-            {/* Footer */}
      <IAMPFooter />
      
            {/* Floating Action Button */}

@@ -17,7 +17,7 @@ import {
   TrendingUp,
 } from "lucide-react"
 
-export default function ModernMembershipDirectory() {
+export default function membership() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All Categories")
   const [selectedGrade, setSelectedGrade] = useState("All Grades")
@@ -247,6 +247,8 @@ export default function ModernMembershipDirectory() {
               borderRadius: "50px",
               border: "1px solid rgba(255, 255, 255, 0.1)",
               marginBottom: "2rem",
+              marginTop: "3rem"
+         
             }}
           >
             <Award style={{ width: "1.5rem", height: "1.5rem", color: "#00d4ff" }} />
@@ -837,7 +839,7 @@ export default function ModernMembershipDirectory() {
           </div>
         </div>
       </div>
-        <IAMPfooter />
+        <IAMPFooter />
       {/* Enhanced Animations */}
       <style>
         {`

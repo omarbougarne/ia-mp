@@ -16,7 +16,7 @@ import IAMPNavbar from "./Components/IAMPNavbar"
 import IAMPFooter from "./Components/IAMPFooter"
 import IAMPPricingPage from "./Components/IAMPPricingPage"
 import IAMPPartnersPage from "./Components/IAMPPartnersPage"
-import membership from "./Components/membership"
+import Membership from "./Components/Membership"
 
 function App() {
   return (
@@ -37,7 +37,7 @@ function App() {
           {/* Nouvelle route pour la page de blog */}
           <Route path="/blog" element={<IAMPBlogPage />} />
           <Route path="/partners" element={<IAMPPartnersPage />} />
-           <Route path="/membership" element={<membership />} />
+           <Route path="/Membership" element={<Membership />} />
         </Routes>
       </Router>
     </>

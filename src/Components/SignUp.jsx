@@ -23,7 +23,6 @@ export default function SignUp() {
   const [subscribeNewsletter, setSubscribeNewsletter] = useState(true);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  // Add state for success modal
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleInputChange = (field, value) => {
@@ -95,7 +94,7 @@ export default function SignUp() {
       
       console.log('User created successfully!');
       
-      // Show success modal instead of navigation
+      // Show success modal
       setShowSuccessModal(true);
       
     } catch (error) {
@@ -332,8 +331,6 @@ export default function SignUp() {
       }}>
         {/* Left Side - Branding and Info */}
         <div style={{ padding: '2rem 0' }}>
-          
-
           <h1 style={{
             fontSize: '3rem',
             fontWeight: 'bold',
@@ -426,7 +423,7 @@ export default function SignUp() {
             Fill in your information to get started
           </p>
 
-          {/* Add error message display */}
+          {/* Error message display */}
           {error && (
             <div style={{
               background: 'rgba(255, 59, 48, 0.1)',
@@ -930,6 +927,9 @@ export default function SignUp() {
           </div>
         </div>
       </div>
+
+      {/* Show success modal if showSuccessModal is true */}
+      {showSuccessModal && <SuccessModal />}
 
       {/* Floating Animation Keyframes */}
       <style>

@@ -296,7 +296,8 @@ export default function SignUp() {
         height: '300px',
         background: 'radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%)',
         borderRadius: '50%',
-        animation: 'float 6s ease-in-out infinite'
+        animation: 'float 6s ease-in-out infinite',
+        marginTop: '50px'
       }} />
       <div style={{
         position: 'absolute',
@@ -405,7 +406,7 @@ export default function SignUp() {
           boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
           maxHeight: '90vh',
           overflowY: 'auto',
-          marginTop:'30px',
+          marginTop:'60px',
           marginRight:'20px'
         }}>
           <h2 style={{

@@ -12,9 +12,9 @@ const IAMPFooter = () => {
   ];
 
   const academyLinks = [
-    { name: 'Our History', href: '#' },
-    { name: 'Admission Policy', href: '#' },
-    { name: 'Benefits', href: '#' },
+    { name: 'Our History', href: '/our-history' },
+    { name: 'Admission Policy', href: '/admission-policy' },
+    { name: 'Benefits', href: '/benefits' },
     { name: 'Partners', href: '#' }
   ];
 

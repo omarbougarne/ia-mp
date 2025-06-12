@@ -15,7 +15,8 @@ import {
   CreditCard,
   Users
 } from 'lucide-react';
-
+import IAMPNavbar from './IAMPNavbar'; // Import the navbar component
+import IAMPFooter from './IAMPFooter'; // Import the footer component
 export default function AdmissionPolicy() {
   const policyItems = [
     {
@@ -75,10 +76,14 @@ export default function AdmissionPolicy() {
       minHeight: '100vh',
       color: '#ffffff',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      padding: '4rem 0',
       position: 'relative',
       overflow: 'hidden'
     }}>
+      <div style={{
+        marginBottom:'200px'
+      }} 
+      > <IAMPNavbar /> 
+      </div>
       {/* Background Elements */}
       <div style={{
         position: 'absolute',
@@ -104,16 +109,7 @@ export default function AdmissionPolicy() {
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
         {/* Hero Section */}
         <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginBottom: '2rem' }}>
-            <Anchor style={{ color: '#00d4ff', width: '3rem', height: '3rem' }} />
-            <span style={{ 
-              fontSize: '2rem', 
-              fontWeight: 'bold', 
-              background: 'linear-gradient(135deg, #00d4ff, #0099cc)', 
-              WebkitBackgroundClip: 'text', 
-              WebkitTextFillColor: 'transparent' 
-            }}>IAMP</span>
-          </div>
+          
 
           <h1 style={{
             fontSize: '4rem',
@@ -343,6 +339,7 @@ export default function AdmissionPolicy() {
           }
         `}
       </style>
+      <IAMPFooter />
     </div>
   );
 }

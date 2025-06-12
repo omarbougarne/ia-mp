@@ -13,7 +13,8 @@ import {
   CheckCircle,
   ArrowRight
 } from 'lucide-react';
-
+import IAMPNavbar from './IAMPNavbar'; // Import the navbar component
+import IAMPFooter from './IAMPFooter'; // Import the footer component
 export default function Benefits() {
   const benefitCategories = [
     {
@@ -87,13 +88,18 @@ export default function Benefits() {
   return (
     <div style={{
       background: 'linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #2d3561 50%, #1a1f3a 75%, #0a0e27 100%)',
-      minHeight: '100vh',
       color: '#ffffff',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      padding: '4rem 0',
+      
       position: 'relative',
-      overflow: 'hidden'
+      overflow: 'hidden', 
     }}>
+      <div style={{
+        marginBottom:'200px'
+      }} 
+      > <IAMPNavbar /> 
+      </div>
+        
       {/* Background Elements */}
       <div style={{
         position: 'absolute',
@@ -103,7 +109,7 @@ export default function Benefits() {
         height: '300px',
         background: 'radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%)',
         borderRadius: '50%',
-        animation: 'float 6s ease-in-out infinite'
+        animation: 'float 6s ease-in-out infinite',
       }} />
       <div style={{
         position: 'absolute',
@@ -113,7 +119,8 @@ export default function Benefits() {
         height: '200px',
         background: 'radial-gradient(circle, rgba(45, 53, 97, 0.3) 0%, transparent 70%)',
         borderRadius: '50%',
-        animation: 'float 8s ease-in-out infinite reverse'
+        animation: 'float 8s ease-in-out infinite reverse',
+        
       }} />
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
@@ -126,7 +133,8 @@ export default function Benefits() {
             marginBottom: '1.5rem',
             background: 'linear-gradient(135deg, #ffffff 0%, #00d4ff 50%, #0099cc 100%)',
             WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
+            WebkitTextFillColor: 'transparent',
+            marginTop:'50px'
           }}>
             Membership Benefits
           </h1>
@@ -329,13 +337,15 @@ export default function Benefits() {
           padding: '4rem',
           borderRadius: '20px',
           border: '1px solid rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(20px)'
+          backdropFilter: 'blur(20px)',
+          marginBottom:'50px'
         }}>
           <h2 style={{
             fontSize: '2.5rem',
             fontWeight: 'bold',
             marginBottom: '1rem',
-            color: '#ffffff'
+            color: '#ffffff', 
+            
           }}>
             Ready to Join IAMP?
           </h2>
@@ -412,6 +422,9 @@ export default function Benefits() {
           }
         `}
       </style>
+       {/* Footer */}
+     <IAMPFooter />
     </div>
+    
   );
 }

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Anchor, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, Users, Globe } from 'lucide-react';
 import IAMPNavbar from './IAMPNavbar'; // Import the navbar component
 import { Anchor, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, Users, Globe, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';

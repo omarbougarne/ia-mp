@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { Anchor, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, Users, Globe, User, Phone, Building } from 'lucide-react';
-import IAMPNavbar from './IAMPNavbar'; // Import the navbar component
+import { Anchor, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, Users, Globe, User, Phone, Building, AlertCircle, Check, X } from 'lucide-react';
+import IAMPNavbar from './IAMPNavbar';
 import { useNavigate } from 'react-router-dom';
+import { auth, db } from '../../firebase';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -18,41 +21,273 @@ export default function SignUp() {
   });
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [subscribeNewsletter, setSubscribeNewsletter] = useState(true);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  // Add state for success modal
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    setError('');
   };
 
-  const handleSubmit = () => {
-    console.log('Sign up attempt:', { ...formData, agreeToTerms, subscribeNewsletter });
+  const handleSubmit = async () => {
+    setError('');
+    
+    // Validation
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
+      setError('Please fill in all required fields');
+      return;
+    }
+    
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    
+    if (!agreeToTerms) {
+      setError('You must agree to the Terms of Service and Privacy Policy');
+      return;
+    }
+    
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters long');
+      return;
+    }
+    
+    setLoading(true);
+    
+    try {
+      // Create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(
+        auth, 
+        formData.email, 
+        formData.password
+      );
+      
+      const user = userCredential.user;
+      
+      // Send email verification
+      await sendEmailVerification(user);
+      
+      // Store additional user data in Firestore
+      await addDoc(collection(db, "users"), {
+        uid: user.uid,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone || '',
+        company: formData.company || '',
+        subscribeNewsletter: subscribeNewsletter,
+        createdAt: serverTimestamp()
+      });
+      
+      // Store a notification for the admin
+      await addDoc(collection(db, "notifications"), {
+        type: 'new_user',
+        userId: user.uid,
+        userEmail: user.email,
+        userName: `${formData.firstName} ${formData.lastName}`,
+        message: `New user registered: ${formData.firstName} ${formData.lastName} (${formData.email})`,
+        read: false,
+        createdAt: serverTimestamp()
+      });
+      
+      console.log('User created successfully!');
+      
+      // Show success modal instead of navigation
+      setShowSuccessModal(true);
+      
+    } catch (error) {
+      console.error("Error creating user:", error);
+      
+      // Handle specific Firebase errors
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          setError('This email is already registered');
+          break;
+        case 'auth/invalid-email':
+          setError('Invalid email address');
+          break;
+        case 'auth/weak-password':
+          setError('Password is too weak');
+          break;
+        default:
+          setError('Failed to create account. Please try again later.');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Function to navigate to signin page
   const goToSignIn = () => {
     navigate('/signin');
   };
+
+  // Success Modal Component
+  const SuccessModal = () => (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(10, 14, 39, 0.8)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 1000,
+      backdropFilter: 'blur(5px)'
+    }}>
+      <div style={{
+        background: 'linear-gradient(135deg, #1a1f3a 0%, #2d3561 100%)',
+        borderRadius: '20px',
+        padding: '3rem',
+        maxWidth: '500px',
+        width: '90%',
+        border: '1px solid rgba(0, 212, 255, 0.3)',
+        boxShadow: '0 20px 50px rgba(0, 0, 0, 0.3)',
+        position: 'relative',
+        animation: 'fadeIn 0.3s ease-out'
+      }}>
+        <button 
+          onClick={() => setShowSuccessModal(false)}
+          style={{
+            position: 'absolute',
+            top: '1rem',
+            right: '1rem',
+            background: 'none',
+            border: 'none',
+            color: '#a0aec0',
+            cursor: 'pointer',
+            padding: '0.5rem'
+          }}
+        >
+          <X size={20} />
+        </button>
+        
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center'
+        }}>
+          <div style={{
+            background: 'rgba(0, 212, 255, 0.1)',
+            borderRadius: '50%',
+            width: '80px',
+            height: '80px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '1.5rem'
+          }}>
+            <Check style={{ color: '#00d4ff', width: '40px', height: '40px' }} />
+          </div>
+          
+          <h2 style={{
+            fontSize: '1.8rem',
+            fontWeight: 'bold',
+            marginBottom: '1rem',
+            background: 'linear-gradient(135deg, #ffffff 0%, #00d4ff 50%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}>
+            Account Created Successfully!
+          </h2>
+          
+          <p style={{
+            fontSize: '1.1rem',
+            color: '#cbd5e0',
+            marginBottom: '1.5rem',
+            lineHeight: '1.6'
+          }}>
+            Thank you for joining IAMP. We've sent a verification email to your email address.
+            Please verify your email to complete the registration process.
+          </p>
+          
+          <div style={{
+            display: 'flex',
+            gap: '1rem',
+            width: '100%',
+            justifyContent: 'center'
+          }}>
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '10px',
+                color: 'white',
+                fontWeight: 'bold',
+                fontSize: '0.9rem',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+              }}
+            >
+              Close
+            </button>
+            
+            <button
+              onClick={goToSignIn}
+              style={{
+                background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
+                border: 'none',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '10px',
+                color: 'white',
+                fontWeight: 'bold',
+                fontSize: '0.9rem',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = 'none';
+              }}
+            >
+              Sign In <ArrowRight style={{ width: '0.9rem', height: '0.9rem' }} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Animation for modal */}
+      <style>
+        {`
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+        `}
+      </style>
+    </div>
+  );
 
   return (
     <div style={{
       background: 'linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #2d3561 50%, #1a1f3a 75%, #0a0e27 100%)',
       minHeight: '100vh',
       color: '#ffffff',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'relative',
-      overflow: 'hidden',
-      padding: '2rem 0'
-    }}>
-       <div style={{
-      background: 'linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #2d3561 50%, #1a1f3a 75%, #0a0e27 100%)',
-      minHeight: '100vh',
-      color: '#ffffff',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
-      {/* Use the extracted navbar component */}
+      {/* Use the navbar component */}
       <IAMPNavbar />
+      
       {/* Animated Background Elements */}
       <div style={{
         position: 'absolute',
@@ -190,6 +425,23 @@ export default function SignUp() {
           }}>
             Fill in your information to get started
           </p>
+
+          {/* Add error message display */}
+          {error && (
+            <div style={{
+              background: 'rgba(255, 59, 48, 0.1)',
+              border: '1px solid rgba(255, 59, 48, 0.3)',
+              borderRadius: '10px',
+              padding: '1rem',
+              marginBottom: '1.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem'
+            }}>
+              <AlertCircle style={{ color: '#ff3b30', width: '1.2rem', height: '1.2rem', flexShrink: 0 }} />
+              <span style={{ color: '#ff3b30', fontSize: '0.95rem' }}>{error}</span>
+            </div>
+          )}
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             {/* Name Fields */}
@@ -617,15 +869,16 @@ export default function SignUp() {
             {/* Create Account Button */}
             <button
               onClick={handleSubmit}
+              disabled={loading}
               style={{
-                background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
+                background: loading ? '#a0aec0' : 'linear-gradient(135deg, #00d4ff, #0099cc)',
                 border: 'none',
                 padding: '1rem 2rem',
                 borderRadius: '10px',
                 color: 'white',
                 fontWeight: 'bold',
                 fontSize: '1rem',
-                cursor: 'pointer',
+                cursor: loading ? 'not-allowed' : 'pointer',
                 transition: 'all 0.3s ease',
                 display: 'flex',
                 alignItems: 'center',
@@ -635,15 +888,20 @@ export default function SignUp() {
                 marginTop: '1rem'
               }}
               onMouseEnter={(e) => {
-                e.target.style.transform = 'translateY(-2px)';
-                e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4)';
+                if (!loading) {
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4)';
+                }
               }}
               onMouseLeave={(e) => {
-                e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 4px 15px rgba(0, 212, 255, 0.3)';
+                if (!loading) {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 4px 15px rgba(0, 212, 255, 0.3)';
+                }
               }}
             >
-              Create Account <ArrowRight style={{ width: '1.2rem', height: '1.2rem' }} />
+              {loading ? 'Creating Account...' : 'Create Account'} 
+              {!loading && <ArrowRight style={{ width: '1.2rem', height: '1.2rem' }} />}
             </button>
 
             {/* Sign In Link */}
@@ -682,6 +940,6 @@ export default function SignUp() {
           }
         `}
       </style>
-    </div>   </div>
+    </div>   
   );
 }

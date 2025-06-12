@@ -54,9 +54,9 @@ const IAMPNavbar = () => {
   const navigationItems = [
     { label: 'Home', href: '/IAMPHomepage' },
     { label: 'About Us', href: '/about' },
-    { label: 'Blog', href: '#membership' }, // Assuming this will be a link to blog
+    { label: 'Blog', href: '/blog' }, // Assuming this will be a link to blog
     { label: 'Category', href: '/IAMPCategoriesPage' },
-    { label: 'Membership', href: '#membership' },
+    { label: 'Membership', href: '/membership' },
     { label: 'Contact', href: '/IAMPContactPage' },
     // Apply the new styles here
     { label: 'Login', href: '/SignIn', isButton: true, buttonStyle: signInButtonStyle },

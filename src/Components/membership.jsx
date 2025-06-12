@@ -17,7 +17,7 @@ import {
   TrendingUp,
 } from "lucide-react"
 
-export default function membership() {
+export default function Membership() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All Categories")
   const [selectedGrade, setSelectedGrade] = useState("All Grades")

@@ -52,7 +52,7 @@ const IAMPNavbar = () => {
   }, []);
 
   const navigationItems = [
-    { label: 'Home', href: '/IAMPHomepage' },
+    { label: 'Home', href: '/' },
     { label: 'About Us', href: '/about' },
     { label: 'Blog', href: '/blog' }, // Assuming this will be a link to blog
     { label: 'Category', href: '/IAMPCategoriesPage' },

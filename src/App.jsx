@@ -16,29 +16,36 @@ import IAMPNavbar from "./Components/IAMPNavbar"
 import IAMPFooter from "./Components/IAMPFooter"
 import IAMPPricingPage from "./Components/IAMPPricingPage"
 import IAMPPartnersPage from "./Components/IAMPPartnersPage"
-import Membership from "./Components/Membership"
+import Membership from "./Components/Membership";
 
 function App() {
   return (
     <>
-      <Router>
-        <Routes>
-          {/* Route par défaut pour la page d'accueil */}
-          <Route path="/" element={<IAMPHomepage />} />
-          
-          {/* Autres routes */}
-          <Route path="/IAMPHomepage" element={<IAMPHomepage />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/signin" element={<SignIn />} /> {/* Correction de "singin" en "signin" */}
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/IAMPContactPage" element={<IAMPContactPage />} />
-          <Route path="/IAMPCategoriesPage" element={<IAMPCategoriesPage />} />
-          
-          {/* Nouvelle route pour la page de blog */}
-          <Route path="/blog" element={<IAMPBlogPage />} />
-          <Route path="/partners" element={<IAMPPartnersPage />} />
-           <Route path="/Membership" element={<Membership />} />
-        </Routes>
+    <Router>
+    <Routes>
+      {/* Route for the Home page */}
+  
+  <Route path="/" element={<IAMPHomepage />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/benefits" element={<Benefits />} />
+      <Route path="/our-history" element={<OurHistory />} />
+      <Route path="/admission-policy" element={<AdmissionPolicy />} />
+      <Route path="/IAMPContactPage" element={<IAMPContactPage />} />
+      <Route path="/IAMPNavbar" element={<IAMPNavbar />} />
+
+      <Route path="/IAMPCategoriesPage" element={<IAMPCategoriesPage />} />
+      <Route path="/IAMPFooter" element={<IAMPFooter />} />
+      <Route path="/Pricing" element={<IAMPPricingPage />} />
+      <Route path="/IAMPPartnersPage" element={<IAMPPartnersPage />} />
+      <Route path="/Membership" element={<Membership />} />
+      <Route path="/blog" element={<IAMPBlogPage />} />
+
+      
+
+      
+      </Routes>
       </Router>
     </>
   )

@@ -41,9 +41,6 @@ export default function SignIn() {
       minHeight: '100vh',
       color: '#ffffff',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
       position: 'relative',
       overflow: 'hidden',
     }}>

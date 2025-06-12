@@ -446,6 +446,7 @@ const IAMPHomepage = () => {
         </div>
       </section>
 
+
       {/* Pricing Section */}
       <section id="membership" style={{ padding: '6rem 0', background: 'rgba(0, 0, 0, 0.2)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>

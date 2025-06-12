@@ -4,10 +4,17 @@ import IAMPHomepage from "./Components/IAMPHomepage";
 import About from "./Components/About"
 import SignIn from "./Components/SignIn"
 import SignUp from "./Components/SignUp"
+import Benefits from "./Components/Benefits"
+import OurHistory from "./Components/OurHistory"
+import AdmissionPolicy from "./Components/AdmissionPolicy"
 import { BrowserRouter as Router } from "react-router-dom";
 import IAMPCategoriesPage from "./Components/IAMPCategoriesPage"
 import IAMPContactPage from "./Components/IAMPContactPage"
 import IAMPBlogPage from "./Components/IAMPBlogPage"
+import IAMPNavbar from "./Components/IAMPNavbar"
+import IAMPFooter from "./Components/IAMPFooter"
+import IAMPPricingPage from "./Components/IAMPPricingPage"
+
 
 function App() {
   return (

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Star, ChevronDown, ChevronUp, Users, Award, Globe, Shield, Anchor, Waves, ArrowRight, Mail, Phone, MapPin, Menu, X, Crown, Building, User, GraduationCap, CheckCircle } from 'lucide-react';
+import IAMPNavbar from './IAMPNavbar'; // Import the navbar component
+import IAMPFooter from './IAMPFooter'; // Import the footer component
 
 const IAMPCategoriesPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -121,67 +123,13 @@ const IAMPCategoriesPage = () => {
 
   return (
     <div style={{
-      background: 'linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #2d3561 50%, #1a1f3a 75%, #0a0e27 100%)',
-      minHeight: '100vh',
-      color: '#ffffff',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-    }}>
-      {/* Navigation */}
-      <nav style={{
-        position: 'fixed',
-        top: 0,
-        width: '100%',
-        zIndex: 1000,
-        background: scrollY > 50 ? 'rgba(10, 14, 39, 0.95)' : 'transparent',
-        backdropFilter: scrollY > 50 ? 'blur(20px)' : 'none',
-        borderBottom: scrollY > 50 ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
-        transition: 'all 0.3s ease'
+        background: 'linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #2d3561 50%, #1a1f3a 75%, #0a0e27 100%)',
+        minHeight: '100vh',
+        color: '#ffffff',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
       }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Anchor style={{ color: '#00d4ff', width: '2rem', height: '2rem' }} />
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #00d4ff, #0099cc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>IAMP</span>
-          </div>
-          
-          <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-            {['Home', 'About', 'Categories', 'Training', 'Contact'].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} style={{
-                color: item === 'Categories' ? '#00d4ff' : '#ffffff',
-                textDecoration: 'none',
-                fontWeight: item === 'Categories' ? 'bold' : '500',
-                transition: 'all 0.3s ease',
-                position: 'relative',
-                padding: '0.5rem 0'
-              }}
-              onMouseEnter={(e) => e.target.style.color = '#00d4ff'}
-              onMouseLeave={(e) => e.target.style.color = item === 'Categories' ? '#00d4ff' : '#ffffff'}>
-                {item}
-              </a>
-            ))}
-            <button style={{
-              background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
-              border: 'none',
-              padding: '0.75rem 1.5rem',
-              borderRadius: '50px',
-              color: 'white',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              boxShadow: '0 4px 15px rgba(0, 212, 255, 0.3)'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.transform = 'translateY(-2px)';
-              e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = '0 4px 15px rgba(0, 212, 255, 0.3)';
-            }}>
-              Apply Now
-            </button>
-          </div>
-        </div>
-      </nav>
+        {/* Use the extracted navbar component */}
+        <IAMPNavbar />
 
       {/* Hero Section */}
       <section style={{
@@ -596,57 +544,10 @@ const IAMPCategoriesPage = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer style={{
-        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(10, 14, 39, 0.9))',
-        padding: '3rem 0 1rem',
-        borderTop: '1px solid rgba(255, 255, 255, 0.1)'
-      }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', marginBottom: '2rem' }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-                <Anchor style={{ color: '#00d4ff', width: '2rem', height: '2rem' }} />
-                <span style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #00d4ff, #0099cc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>IAMP</span>
-              </div>
-              <p style={{ color: '#a0aec0', lineHeight: '1.6' }}>
-                At IAMP, our mission comes to life through impactful projects that strengthen global maritime standards.
-              </p>
-              <div style={{ marginTop: '1rem' }}>
-                <a href="#" style={{ color: '#00d4ff', textDecoration: 'none', fontWeight: 'bold' }}>
-                  Discover our academy
-                </a>
-              </div>
-            </div>
-            
-            <div>
-              <h4 style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '1rem' }}>Contact Information</h4>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                <Mail style={{ color: '#00d4ff', width: '1.2rem', height: '1.2rem' }} />
-                <span style={{ color: '#a0aec0' }}>info@ia-mp.org</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                <MapPin style={{ color: '#00d4ff', width: '1.2rem', height: '1.2rem' }} />
-                <span style={{ color: '#a0aec0' }}>71-75 Shelton Street, London, United Kingdom, WC2H 9JQ</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <Phone style={{ color: '#00d4ff', width: '1.2rem', height: '1.2rem' }} />
-                <span style={{ color: '#a0aec0' }}>123-456-7890</span>
-              </div>
-            </div>
-          </div>
-          
-          <div style={{
-            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-            paddingTop: '2rem',
-            textAlign: 'center'
-          }}>
-           <p style={{ color: '#a0aec0' }}>
-              © 2025 International Association of Maritime Professionals (IAMP). All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+    
+     {/* Footer */}
+     <IAMPFooter />
+
 
       {/* Floating Action Button */}
       <div style={{

@@ -30,10 +30,12 @@ export default function SignUp() {
     setError('');
   };
 
-  const handleSubmit = async () => {
-    setError('');
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     
-    // Validation
+    // Basic validation
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
       setError('Please fill in all required fields');
       return;
@@ -45,80 +47,55 @@ export default function SignUp() {
     }
     
     if (!agreeToTerms) {
-      setError('You must agree to the Terms of Service and Privacy Policy');
-      return;
-    }
-    
-    if (formData.password.length < 8) {
-      setError('Password must be at least 8 characters long');
+      setError('Please agree to the Terms of Service and Privacy Policy');
       return;
     }
     
     setLoading(true);
-    
+    setError('');
+  
     try {
-      // Create user with email and password
-      const userCredential = await createUserWithEmailAndPassword(
-        auth, 
-        formData.email, 
-        formData.password
-      );
-      
-      const user = userCredential.user;
-      
-      // Send email verification
-      await sendEmailVerification(user);
-      
-      // Store additional user data in Firestore
-      await addDoc(collection(db, "users"), {
-        uid: user.uid,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phone: formData.phone || '',
-        company: formData.company || '',
-        subscribeNewsletter: subscribeNewsletter,
-        createdAt: serverTimestamp()
+      const response = await fetch(`${apiUrl}/api/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          subscribeNewsletter
+        }),
       });
+  
+      const data = await response.json();
+      console.log('Server response:', data);
       
-      // Store a notification for the admin
-      await addDoc(collection(db, "notifications"), {
-        type: 'new_user',
-        userId: user.uid,
-        userEmail: user.email,
-        userName: `${formData.firstName} ${formData.lastName}`,
-        message: `New user registered: ${formData.firstName} ${formData.lastName} (${formData.email})`,
-        read: false,
-        createdAt: serverTimestamp()
-      });
-      
-      console.log('User created successfully!');
-      
-      // Show success modal
-      setShowSuccessModal(true);
-      
-    } catch (error) {
-      console.error("Error creating user:", error);
-      
-      // Handle specific Firebase errors
-      switch (error.code) {
-        case 'auth/email-already-in-use':
-          setError('This email is already registered');
-          break;
-        case 'auth/invalid-email':
-          setError('Invalid email address');
-          break;
-        case 'auth/weak-password':
-          setError('Password is too weak');
-          break;
-        default:
-          setError('Failed to create account. Please try again later.');
+      if (response.ok) {
+        // Success - show the success modal
+        setShowSuccessModal(true);
+        
+        // Optionally clear the form
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          company: '',
+          password: '',
+          confirmPassword: ''
+        });
+        setAgreeToTerms(false);
+        setSubscribeNewsletter(true);
+      } else {
+        // Handle server errors
+        setError(data.message || 'Registration failed. Please try again.');
       }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setError('Network error. Please check your connection and try again.');
     } finally {
       setLoading(false);
     }
   };
-
   const goToSignIn = () => {
     navigate('/signin');
   };

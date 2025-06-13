@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import IAMPNavbar from './IAMPNavbar'; // Import the navbar component
-import { Anchor, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, Users, Globe, X } from 'lucide-react';
+import { Anchor, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, Users, Globe, X, AlertCircle, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
@@ -12,21 +12,96 @@ export default function SignIn() {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
   const [resetEmailSent, setResetEmailSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Sign in attempt:', { email, password, rememberMe });
+    setIsLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/signin', {
+        method: 'POST',
+        credentials: 'include',
+                headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          rememberMe
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store session token and user data
+        localStorage.setItem('sessionToken', data.session_token);
+        localStorage.setItem('userData', JSON.stringify(data.user));
+        
+        setSuccess('Sign in successful! Redirecting...');
+        
+        // Redirect to profile page after 1 second
+        setTimeout(() => {
+          navigate('/profile');
+        }, 1000);
+      } else {
+        setError(data.error || 'Sign in failed');
+      }
+    } catch (error) {
+      setError('Network error. Please try again.');
+      console.error('Sign in error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleForgotPassword = (e) => {
+  const handleForgotPassword = async (e) => {
     e.preventDefault();
-    console.log('Password reset requested for:', resetEmail);
-    setResetEmailSent(true);
-    setTimeout(() => {
-      setShowForgotPassword(false);
-      setResetEmailSent(false);
-      setResetEmail('');
-    }, 3000);
+    setIsLoading(true);
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: resetEmail }),
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        setResetEmailSent(true);
+        setTimeout(() => {
+          setShowForgotPassword(false);
+          setResetEmailSent(false);
+          setResetEmail('');
+        }, 3000);
+      } else {
+        console.error('Password reset error:', data.error);
+        setResetEmailSent(true); // Still show success for security
+        setTimeout(() => {
+          setShowForgotPassword(false);
+          setResetEmailSent(false);
+          setResetEmail('');
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('Password reset error:', error);
+      setResetEmailSent(true); // Still show success for security
+      setTimeout(() => {
+        setShowForgotPassword(false);
+        setResetEmailSent(false);
+        setResetEmail('');
+      }, 3000);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Function to navigate to signup page
@@ -35,7 +110,7 @@ export default function SignIn() {
   };
 
   return (
-    
+
     <div style={{
       background: 'linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #2d3561 50%, #1a1f3a 75%, #0a0e27 100%)',
       minHeight: '100vh',
@@ -44,14 +119,10 @@ export default function SignIn() {
       position: 'relative',
       overflow: 'hidden',
     }}>
-      <div style={{
-      background: 'linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #2d3561 50%, #1a1f3a 75%, #0a0e27 100%)',
-      minHeight: '100vh',
-      color: '#ffffff',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-    }}>
+
       {/* Use the extracted navbar component */}
       <IAMPNavbar />
+      
       {/* Animated Background Elements */}
       <div style={{
         position: 'absolute',
@@ -202,29 +273,34 @@ export default function SignIn() {
 
                   <button
                     type="submit"
+                    disabled={isLoading}
                     style={{
                       width: '100%',
-                      background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
+                      background: isLoading ? 'rgba(0, 212, 255, 0.5)' : 'linear-gradient(135deg, #00d4ff, #0099cc)',
                       border: 'none',
                       padding: '1rem',
                       borderRadius: '10px',
                       color: 'white',
                       fontWeight: 'bold',
                       fontSize: '1rem',
-                      cursor: 'pointer',
+                      cursor: isLoading ? 'not-allowed' : 'pointer',
                       transition: 'all 0.3s ease',
                       boxShadow: '0 4px 15px rgba(0, 212, 255, 0.3)'
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.transform = 'translateY(-2px)';
-                      e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4)';
+                      if (!isLoading) {
+                        e.target.style.transform = 'translateY(-2px)';
+                        e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4)';
+                      }
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.transform = 'translateY(0)';
-                      e.target.style.boxShadow = '0 4px 15px rgba(0, 212, 255, 0.3)';
+                      if (!isLoading) {
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = '0 4px 15px rgba(0, 212, 255, 0.3)';
+                      }
                     }}
                   >
-                    Send Reset Link
+                    {isLoading ? 'Sending...' : 'Send Reset Link'}
                   </button>
                 </form>
               </>
@@ -275,7 +351,6 @@ export default function SignIn() {
       }}>
         {/* Left Side - Branding and Info */}
         <div style={{ padding: '2rem 0' }}>
-          
           <h1 style={{
             fontSize: '3rem',
             fontWeight: 'bold',
@@ -579,6 +654,6 @@ export default function SignIn() {
         `}
       </style>
     </div>
-    </div>
+    
   );
 }

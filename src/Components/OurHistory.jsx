@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Calendar, 
   Award, 
@@ -10,9 +10,24 @@ import {
   MapPin,
   Clock
 } from 'lucide-react';
-import IAMPNavbar from './IAMPNavbar'; // Import the navbar component
-import IAMPFooter from './IAMPFooter'; // Import the footer component
+import IAMPNavbar from './IAMPNavbar'; 
+import IAMPFooter from './IAMPFooter';
+
 export default function OurHistory() {
+  // Add responsive state
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Add mobile detection
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const timelineEvents = [
     {
       year: "1998",
@@ -67,10 +82,10 @@ export default function OurHistory() {
   ];
 
   const milestones = [
-    { number: "25+", label: "Years of Service", icon: <Clock style={{ width: '2rem', height: '2rem' }} /> },
-    { number: "118+", label: "Corporate Members", icon: <Users style={{ width: '2rem', height: '2rem' }} /> },
-    { number: "5,000+", label: "Professional Members", icon: <Globe style={{ width: '2rem', height: '2rem' }} /> },
-    { number: "50+", label: "Countries Served", icon: <MapPin style={{ width: '2rem', height: '2rem' }} /> }
+    { number: "25+", label: "Years of Service", icon: <Clock style={{ width: isMobile ? '1.5rem' : '2rem', height: isMobile ? '1.5rem' : '2rem' }} /> },
+    { number: "118+", label: "Corporate Members", icon: <Users style={{ width: isMobile ? '1.5rem' : '2rem', height: isMobile ? '1.5rem' : '2rem' }} /> },
+    { number: "5,000+", label: "Professional Members", icon: <Globe style={{ width: isMobile ? '1.5rem' : '2rem', height: isMobile ? '1.5rem' : '2rem' }} /> },
+    { number: "50+", label: "Countries Served", icon: <MapPin style={{ width: isMobile ? '1.5rem' : '2rem', height: isMobile ? '1.5rem' : '2rem' }} /> }
   ];
 
   return (
@@ -83,17 +98,18 @@ export default function OurHistory() {
       overflow: 'hidden'
     }}>
       <div style={{
-        marginBottom:'200px'
-      }} 
-      > <IAMPNavbar /> 
+        marginBottom: isMobile ? '80px' : '200px'
+      }}> 
+        <IAMPNavbar /> 
       </div>
-      {/* Background Elements */}
+      
+      {/* Background Elements - smaller on mobile */}
       <div style={{
         position: 'absolute',
         top: '10%',
         right: '10%',
-        width: '300px',
-        height: '300px',
+        width: isMobile ? '150px' : '300px',
+        height: isMobile ? '150px' : '300px',
         background: 'radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%)',
         borderRadius: '50%',
         animation: 'float 6s ease-in-out infinite'
@@ -102,23 +118,21 @@ export default function OurHistory() {
         position: 'absolute',
         bottom: '20%',
         left: '5%',
-        width: '200px',
-        height: '200px',
+        width: isMobile ? '100px' : '200px',
+        height: isMobile ? '100px' : '200px',
         background: 'radial-gradient(circle, rgba(45, 53, 97, 0.3) 0%, transparent 70%)',
         borderRadius: '50%',
         animation: 'float 8s ease-in-out infinite reverse'
       }} />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
-        {/* Hero Section */}
-        <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-        
-          
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '0 1rem' : '0 2rem' }}>
+        {/* Hero Section - Responsive text sizes */}
+        <div style={{ textAlign: 'center', marginBottom: isMobile ? '3rem' : '5rem' }}>
           <h1 style={{
-            fontSize: '4rem',
+            fontSize: isMobile ? '2.5rem' : '4rem',
             fontWeight: 'bold',
             lineHeight: '1.1',
-            marginBottom: '1.5rem',
+            marginBottom: isMobile ? '1rem' : '1.5rem',
             background: 'linear-gradient(135deg, #ffffff 0%, #00d4ff 50%, #0099cc 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -126,7 +140,7 @@ export default function OurHistory() {
             Our History
           </h1>
           <p style={{
-            fontSize: '1.3rem',
+            fontSize: isMobile ? '1.1rem' : '1.3rem',
             color: '#cbd5e0',
             maxWidth: '800px',
             margin: '0 auto',
@@ -136,17 +150,19 @@ export default function OurHistory() {
           </p>
         </div>
 
-        {/* Key Milestones */}
+        {/* Key Milestones - Responsive grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '2rem',
-          marginBottom: '5rem'
+          gridTemplateColumns: isMobile 
+            ? '1fr' 
+            : 'repeat(auto-fit, minmax(250px, 1fr))',
+          gap: isMobile ? '1rem' : '2rem',
+          marginBottom: isMobile ? '3rem' : '5rem'
         }}>
           {milestones.map((milestone, index) => (
             <div key={index} style={{
               textAlign: 'center',
-              padding: '2.5rem',
+              padding: isMobile ? '1.5rem' : '2.5rem',
               background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
               borderRadius: '20px',
               border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -163,7 +179,7 @@ export default function OurHistory() {
                 {milestone.icon}
               </div>
               <div style={{
-                fontSize: '3rem',
+                fontSize: isMobile ? '2.25rem' : '3rem',
                 fontWeight: 'bold',
                 color: '#00d4ff',
                 marginBottom: '0.5rem'
@@ -171,7 +187,7 @@ export default function OurHistory() {
                 {milestone.number}
               </div>
               <div style={{
-                fontSize: '1.1rem',
+                fontSize: isMobile ? '1rem' : '1.1rem',
                 color: '#cbd5e0',
                 fontWeight: '500'
               }}>
@@ -181,13 +197,13 @@ export default function OurHistory() {
           ))}
         </div>
 
-        {/* Timeline Section */}
-        <div style={{ marginBottom: '5rem' }}>
+        {/* Timeline Section - Completely different layout for mobile */}
+        <div style={{ marginBottom: isMobile ? '3rem' : '5rem' }}>
           <h2 style={{
-            fontSize: '3rem',
+            fontSize: isMobile ? '2rem' : '3rem',
             fontWeight: 'bold',
             textAlign: 'center',
-            marginBottom: '3rem',
+            marginBottom: isMobile ? '2rem' : '3rem',
             background: 'linear-gradient(135deg, #ffffff 0%, #00d4ff 50%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -196,61 +212,103 @@ export default function OurHistory() {
           </h2>
 
           <div style={{ position: 'relative' }}>
-            {/* Timeline Line */}
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '4px',
-              height: '100%',
-              background: 'linear-gradient(180deg, #00d4ff, #0099cc)',
-              borderRadius: '2px'
-            }} />
+            {/* Timeline Line - Only visible on desktop */}
+            {!isMobile && (
+              <div style={{
+                position: 'absolute',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '4px',
+                height: '100%',
+                background: 'linear-gradient(180deg, #00d4ff, #0099cc)',
+                borderRadius: '2px'
+              }} />
+            )}
+            
+            {/* Mobile timeline line */}
+            {isMobile && (
+              <div style={{
+                position: 'absolute',
+                left: '20px',
+                width: '4px',
+                height: '100%',
+                background: 'linear-gradient(180deg, #00d4ff, #0099cc)',
+                borderRadius: '2px'
+              }} />
+            )}
 
             {timelineEvents.map((event, index) => (
               <div key={index} style={{
                 display: 'flex',
-                alignItems: 'center',
-                marginBottom: '4rem',
+                alignItems: isMobile ? 'flex-start' : 'center',
+                marginBottom: isMobile ? '2.5rem' : '4rem',
                 position: 'relative',
-                flexDirection: index % 2 === 0 ? 'row' : 'row-reverse'
+                flexDirection: isMobile 
+                  ? 'row' 
+                  : (index % 2 === 0 ? 'row' : 'row-reverse')
               }}>
+                {/* Mobile timeline icon */}
+                {isMobile && (
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    background: event.highlight 
+                      ? 'linear-gradient(135deg, #00d4ff, #0099cc)'
+                      : 'linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(45, 53, 97, 0.3))',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '4px solid #0a0e27',
+                    color: event.highlight ? '#ffffff' : '#00d4ff',
+                    zIndex: 1,
+                    position: 'relative',
+                    marginRight: '20px'
+                  }}>
+                    {event.icon}
+                  </div>
+                )}
+                
                 {/* Content */}
                 <div style={{
-                  width: '45%',
-                  padding: index % 2 === 0 ? '0 3rem 0 0' : '0 0 0 3rem'
+                  width: isMobile ? 'calc(100% - 60px)' : '45%',
+                  padding: isMobile 
+                    ? '0' 
+                    : (index % 2 === 0 ? '0 3rem 0 0' : '0 0 0 3rem')
                 }}>
                   <div style={{
                     background: event.highlight 
                       ? 'linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(45, 53, 97, 0.3))'
                       : 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-                    padding: '2.5rem',
+                    padding: isMobile ? '1.5rem' : '2.5rem',
                     borderRadius: '20px',
                     border: event.highlight 
                       ? '2px solid #00d4ff'
                       : '1px solid rgba(255, 255, 255, 0.1)',
                     backdropFilter: 'blur(20px)',
-                    textAlign: index % 2 === 0 ? 'right' : 'left'
+                    textAlign: isMobile 
+                      ? 'left' 
+                      : (index % 2 === 0 ? 'right' : 'left')
                   }}>
                     <div style={{
-                      fontSize: '2rem',
+                      fontSize: isMobile ? '1.5rem' : '2rem',
                       fontWeight: 'bold',
                       color: '#00d4ff',
-                      marginBottom: '1rem'
+                      marginBottom: '0.5rem'
                     }}>
                       {event.year}
                     </div>
                     <h3 style={{
-                      fontSize: '1.5rem',
+                      fontSize: isMobile ? '1.25rem' : '1.5rem',
                       fontWeight: 'bold',
                       color: '#ffffff',
-                      marginBottom: '1rem'
+                      marginBottom: '0.5rem'
                     }}>
                       {event.title}
                     </h3>
                     <p style={{
                       color: '#cbd5e0',
-                      fontSize: '1.1rem',
+                      fontSize: isMobile ? '1rem' : '1.1rem',
                       lineHeight: '1.6'
                     }}>
                       {event.description}
@@ -258,53 +316,56 @@ export default function OurHistory() {
                   </div>
                 </div>
 
-                {/* Center Icon */}
-                <div style={{
-                  position: 'absolute',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '4rem',
-                  height: '4rem',
-                  background: event.highlight 
-                    ? 'linear-gradient(135deg, #00d4ff, #0099cc)'
-                    : 'linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(45, 53, 97, 0.3))',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '4px solid #0a0e27',
-                  color: event.highlight ? '#ffffff' : '#00d4ff',
-                  zIndex: 1
-                }}>
-                  {event.icon}
-                </div>
+                {/* Center Icon - Only for desktop */}
+                {!isMobile && (
+                  <div style={{
+                    position: 'absolute',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: '4rem',
+                    height: '4rem',
+                    background: event.highlight 
+                      ? 'linear-gradient(135deg, #00d4ff, #0099cc)'
+                      : 'linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(45, 53, 97, 0.3))',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '4px solid #0a0e27',
+                    color: event.highlight ? '#ffffff' : '#00d4ff',
+                    zIndex: 1
+                  }}>
+                    {event.icon}
+                  </div>
+                )}
 
-                {/* Spacer */}
-                <div style={{ width: '45%' }} />
+                {/* Spacer - Only for desktop */}
+                {!isMobile && <div style={{ width: '45%' }} />}
               </div>
             ))}
           </div>
         </div>
 
-        {/* Mission Statement */}
+        {/* Mission Statement - Reduced padding on mobile */}
         <div style={{
           textAlign: 'center',
           background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-          padding: '4rem',
+          padding: isMobile ? '2rem 1.5rem' : '4rem',
           borderRadius: '20px',
           border: '1px solid rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(20px)'
+          backdropFilter: 'blur(20px)',
+          marginBottom: isMobile ? '3rem' : '5rem'
         }}>
           <h2 style={{
-            fontSize: '2.5rem',
+            fontSize: isMobile ? '1.75rem' : '2.5rem',
             fontWeight: 'bold',
-            marginBottom: '2rem',
+            marginBottom: isMobile ? '1rem' : '2rem',
             color: '#ffffff'
           }}>
             Our Mission Continues
           </h2>
           <p style={{
-            fontSize: '1.3rem',
+            fontSize: isMobile ? '1.1rem' : '1.3rem',
             color: '#cbd5e0',
             maxWidth: '800px',
             margin: '0 auto',

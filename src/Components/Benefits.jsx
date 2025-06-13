@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Users, 
   Globe, 
@@ -13,13 +13,28 @@ import {
   CheckCircle,
   ArrowRight
 } from 'lucide-react';
-import IAMPNavbar from './IAMPNavbar'; // Import the navbar component
-import IAMPFooter from './IAMPFooter'; // Import the footer component
+import IAMPNavbar from './IAMPNavbar';
+import IAMPFooter from './IAMPFooter';
+
 export default function Benefits() {
+  // Add mobile detection
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    handleResize(); // Check on initial render
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Your existing data stays the same
   const benefitCategories = [
     {
       title: "Professional Development",
-      icon: <TrendingUp style={{ width: '2.5rem', height: '2.5rem' }} />,
+      icon: <TrendingUp style={{ width: isMobile ? '2rem' : '2.5rem', height: isMobile ? '2rem' : '2.5rem' }} />,
       benefits: [
         "Access to exclusive maritime training programs",
         "Professional certification and continuing education",
@@ -30,7 +45,7 @@ export default function Benefits() {
     },
     {
       title: "Networking & Community",
-      icon: <Network style={{ width: '2.5rem', height: '2.5rem' }} />,
+      icon: <Network style={{ width: isMobile ? '2rem' : '2.5rem', height: isMobile ? '2rem' : '2.5rem' }} />,
       benefits: [
         "Connect with 118+ maritime companies worldwide",
         "Access to exclusive industry events and conferences",
@@ -41,7 +56,7 @@ export default function Benefits() {
     },
     {
       title: "Industry Resources",
-      icon: <BookOpen style={{ width: '2.5rem', height: '2.5rem' }} />,
+      icon: <BookOpen style={{ width: isMobile ? '2rem' : '2.5rem', height: isMobile ? '2rem' : '2.5rem' }} />,
       benefits: [
         "Comprehensive maritime industry publications",
         "Technical resources and best practices",
@@ -52,7 +67,7 @@ export default function Benefits() {
     },
     {
       title: "Career Services",
-      icon: <Briefcase style={{ width: '2.5rem', height: '2.5rem' }} />,
+      icon: <Briefcase style={{ width: isMobile ? '2rem' : '2.5rem', height: isMobile ? '2rem' : '2.5rem' }} />,
       benefits: [
         "Exclusive job board access",
         "Career counseling and guidance",
@@ -62,7 +77,6 @@ export default function Benefits() {
       ]
     }
   ];
-
 
   const testimonials = [
     {
@@ -90,23 +104,22 @@ export default function Benefits() {
       background: 'linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #2d3561 50%, #1a1f3a 75%, #0a0e27 100%)',
       color: '#ffffff',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      
       position: 'relative',
       overflow: 'hidden', 
     }}>
       <div style={{
-        marginBottom:'200px'
-      }} 
-      > <IAMPNavbar /> 
+        marginBottom: isMobile ? '80px' : '200px'
+      }}> 
+        <IAMPNavbar /> 
       </div>
         
-      {/* Background Elements */}
+      {/* Background Elements - smaller on mobile */}
       <div style={{
         position: 'absolute',
         top: '10%',
         right: '10%',
-        width: '300px',
-        height: '300px',
+        width: isMobile ? '150px' : '300px',
+        height: isMobile ? '150px' : '300px',
         background: 'radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%)',
         borderRadius: '50%',
         animation: 'float 6s ease-in-out infinite',
@@ -115,31 +128,37 @@ export default function Benefits() {
         position: 'absolute',
         bottom: '20%',
         left: '5%',
-        width: '200px',
-        height: '200px',
+        width: isMobile ? '100px' : '200px',
+        height: isMobile ? '100px' : '200px',
         background: 'radial-gradient(circle, rgba(45, 53, 97, 0.3) 0%, transparent 70%)',
         borderRadius: '50%',
         animation: 'float 8s ease-in-out infinite reverse',
-        
       }} />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
-        {/* Hero Section */}
-        <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+      <div style={{ 
+        maxWidth: '1200px', 
+        margin: '0 auto', 
+        padding: isMobile ? '0 1rem' : '0 2rem' 
+      }}>
+        {/* Hero Section - Responsive text sizes */}
+        <div style={{ 
+          textAlign: 'center', 
+          marginBottom: isMobile ? '3rem' : '5rem' 
+        }}>
           <h1 style={{
-            fontSize: '4rem',
+            fontSize: isMobile ? '2.5rem' : '4rem',
             fontWeight: 'bold',
             lineHeight: '1.1',
-            marginBottom: '1.5rem',
+            marginBottom: isMobile ? '1rem' : '1.5rem',
             background: 'linear-gradient(135deg, #ffffff 0%, #00d4ff 50%, #0099cc 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            marginTop:'50px'
+            marginTop: '50px'
           }}>
             Membership Benefits
           </h1>
           <p style={{
-            fontSize: '1.3rem',
+            fontSize: isMobile ? '1.1rem' : '1.3rem',
             color: '#cbd5e0',
             maxWidth: '800px',
             margin: '0 auto',
@@ -149,12 +168,14 @@ export default function Benefits() {
           </p>
         </div>
 
-        {/* Key Statistics */}
+        {/* Key Statistics - Mobile responsive grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '2rem',
-          marginBottom: '5rem'
+          gridTemplateColumns: isMobile 
+            ? '1fr 1fr' 
+            : 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: isMobile ? '1rem' : '2rem',
+          marginBottom: isMobile ? '3rem' : '5rem'
         }}>
           {[
             { number: '118+', label: 'Maritime Companies' },
@@ -164,14 +185,14 @@ export default function Benefits() {
           ].map((stat, index) => (
             <div key={index} style={{
               textAlign: 'center',
-              padding: '2rem',
+              padding: isMobile ? '1.5rem' : '2rem',
               background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
               borderRadius: '15px',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(20px)'
             }}>
               <div style={{
-                fontSize: '3rem',
+                fontSize: isMobile ? '2rem' : '3rem',
                 fontWeight: 'bold',
                 color: '#00d4ff',
                 marginBottom: '0.5rem'
@@ -179,7 +200,7 @@ export default function Benefits() {
                 {stat.number}
               </div>
               <div style={{
-                fontSize: '1.1rem',
+                fontSize: isMobile ? '0.9rem' : '1.1rem',
                 color: '#cbd5e0'
               }}>
                 {stat.label}
@@ -188,17 +209,19 @@ export default function Benefits() {
           ))}
         </div>
 
-        {/* Benefit Categories */}
+        {/* Benefit Categories - Stack on mobile */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))',
-          gap: '3rem',
-          marginBottom: '5rem'
+          gridTemplateColumns: isMobile 
+            ? '1fr' 
+            : 'repeat(auto-fit, minmax(500px, 1fr))',
+          gap: isMobile ? '1.5rem' : '3rem',
+          marginBottom: isMobile ? '3rem' : '5rem'
         }}>
           {benefitCategories.map((category, index) => (
             <div key={index} style={{
               background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-              padding: '3rem',
+              padding: isMobile ? '1.5rem' : '3rem',
               borderRadius: '20px',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(20px)',
@@ -216,13 +239,13 @@ export default function Benefits() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '1rem',
-                marginBottom: '2rem'
+                marginBottom: isMobile ? '1.25rem' : '2rem'
               }}>
                 <div style={{ color: '#00d4ff' }}>
                   {category.icon}
                 </div>
                 <h3 style={{
-                  fontSize: '1.8rem',
+                  fontSize: isMobile ? '1.4rem' : '1.8rem',
                   fontWeight: 'bold',
                   margin: 0
                 }}>
@@ -237,7 +260,7 @@ export default function Benefits() {
                     gap: '0.75rem',
                     marginBottom: '1rem',
                     color: '#cbd5e0',
-                    fontSize: '1.1rem',
+                    fontSize: isMobile ? '1rem' : '1.1rem',
                     lineHeight: '1.5'
                   }}>
                     <CheckCircle style={{
@@ -255,13 +278,13 @@ export default function Benefits() {
           ))}
         </div>
 
-        {/* Testimonials */}
-        <div style={{ marginBottom: '5rem' }}>
+        {/* Testimonials - Stack on mobile */}
+        <div style={{ marginBottom: isMobile ? '3rem' : '5rem' }}>
           <h2 style={{
-            fontSize: '3rem',
+            fontSize: isMobile ? '2rem' : '3rem',
             fontWeight: 'bold',
             textAlign: 'center',
-            marginBottom: '3rem',
+            marginBottom: isMobile ? '2rem' : '3rem',
             background: 'linear-gradient(135deg, #ffffff 0%, #00d4ff 50%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -270,13 +293,15 @@ export default function Benefits() {
           </h2>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-            gap: '2rem'
+            gridTemplateColumns: isMobile 
+              ? '1fr' 
+              : 'repeat(auto-fit, minmax(350px, 1fr))',
+            gap: isMobile ? '1.5rem' : '2rem'
           }}>
             {testimonials.map((testimonial, index) => (
               <div key={index} style={{
                 background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-                padding: '2.5rem',
+                padding: isMobile ? '1.5rem' : '2.5rem',
                 borderRadius: '20px',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 backdropFilter: 'blur(20px)'
@@ -296,7 +321,7 @@ export default function Benefits() {
                   ))}
                 </div>
                 <blockquote style={{
-                  fontSize: '1.1rem',
+                  fontSize: isMobile ? '1rem' : '1.1rem',
                   lineHeight: '1.6',
                   color: '#cbd5e0',
                   marginBottom: '1.5rem',
@@ -330,27 +355,26 @@ export default function Benefits() {
           </div>
         </div>
 
-        {/* Call to Action */}
+        {/* Call to Action - Responsive padding and buttons */}
         <div style={{
           textAlign: 'center',
           background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-          padding: '4rem',
+          padding: isMobile ? '2rem 1.5rem' : '4rem',
           borderRadius: '20px',
           border: '1px solid rgba(255, 255, 255, 0.1)',
           backdropFilter: 'blur(20px)',
-          marginBottom:'50px'
+          marginBottom: '50px'
         }}>
           <h2 style={{
-            fontSize: '2.5rem',
+            fontSize: isMobile ? '1.8rem' : '2.5rem',
             fontWeight: 'bold',
             marginBottom: '1rem',
             color: '#ffffff', 
-            
           }}>
             Ready to Join IAMP?
           </h2>
           <p style={{
-            fontSize: '1.2rem',
+            fontSize: isMobile ? '1.1rem' : '1.2rem',
             color: '#cbd5e0',
             marginBottom: '2rem',
             maxWidth: '600px',
@@ -362,7 +386,8 @@ export default function Benefits() {
             display: 'flex',
             gap: '1rem',
             justifyContent: 'center',
-            flexWrap: 'wrap'
+            flexWrap: 'wrap',
+            flexDirection: isMobile ? 'column' : 'row'
           }}>
             <button style={{
               background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
@@ -371,12 +396,14 @@ export default function Benefits() {
               borderRadius: '10px',
               color: 'white',
               fontWeight: 'bold',
-              fontSize: '1.1rem',
+              fontSize: isMobile ? '1rem' : '1.1rem',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.5rem'
+              justifyContent: 'center',
+              gap: '0.5rem',
+              width: isMobile ? '100%' : 'auto'
             }}
             onMouseEnter={(e) => {
               e.target.style.transform = 'translateY(-2px)';
@@ -395,9 +422,10 @@ export default function Benefits() {
               borderRadius: '10px',
               color: '#00d4ff',
               fontWeight: 'bold',
-              fontSize: '1.1rem',
+              fontSize: isMobile ? '1rem' : '1.1rem',
               cursor: 'pointer',
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              width: isMobile ? '100%' : 'auto'
             }}
             onMouseEnter={(e) => {
               e.target.style.background = '#00d4ff';
@@ -422,9 +450,9 @@ export default function Benefits() {
           }
         `}
       </style>
-       {/* Footer */}
-     <IAMPFooter />
+      
+      {/* Footer */}
+      <IAMPFooter />
     </div>
-    
   );
 }

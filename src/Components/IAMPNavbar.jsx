@@ -248,7 +248,7 @@ const IAMPNavbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Keeping all elements but fixing alignment */}
       {isMenuOpen && (
         <div style={{
           position: 'absolute',
@@ -258,19 +258,30 @@ const IAMPNavbar = () => {
           background: 'rgba(10, 14, 39, 0.98)',
           backdropFilter: 'blur(20px)',
           border: '1px solid rgba(255, 255, 255, 0.1)',
-          padding: '1rem 2rem'
+          padding: '1rem 0', // Changed padding to vertical only
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center' // Center all content
         }}>
           {navigationItems.map((item) => (
-            <div key={item.label}>
-              {item.isButton ? ( // Apply button style in mobile menu as well
+            <div key={item.label} style={{
+              width: '100%', // Full container width
+              display: 'flex',
+              justifyContent: 'center' // Center items horizontally
+            }}>
+              {item.isButton ? (
                 <a
                   href={item.href}
                   style={{
                     ...item.buttonStyle,
-                    display: 'block', // Make it block for full width in mobile menu
+                    display: 'flex', // Changed from block
+                    justifyContent: 'center', // Center content
+                    alignItems: 'center', 
                     marginTop: '1rem',
-                    width: '100%', // Full width in mobile menu
-                    textAlign: 'center', // Center text
+                    width: 'auto', // Changed from 100%
+                    maxWidth: '200px', // Added max width
+                    padding: '0.75rem 1.5rem', // Explicit padding
+                    boxSizing: 'border-box'
                   }}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -284,7 +295,9 @@ const IAMPNavbar = () => {
                     padding: '1rem 0',
                     color: '#ffffff',
                     textDecoration: 'none',
-                    borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                    width: '80%', // Added width for centering
+                    textAlign: 'center' // Center text
                   }}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -292,7 +305,13 @@ const IAMPNavbar = () => {
                 </a>
               )}
               {item.dropdown && (
-                <div style={{ paddingLeft: '1rem' }}>
+                <div style={{ 
+                  paddingLeft: '1rem',
+                  width: '100%', // Full width 
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center' // Center dropdown items
+                }}>
                   {item.dropdown.map((dropdownItem) => (
                     <a
                       key={dropdownItem.label}
@@ -302,7 +321,8 @@ const IAMPNavbar = () => {
                         padding: '0.5rem 0',
                         color: '#cccccc',
                         textDecoration: 'none',
-                        fontSize: '0.9rem'
+                        fontSize: '0.9rem',
+                        textAlign: 'center' // Center text
                       }}
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -315,11 +335,15 @@ const IAMPNavbar = () => {
           ))}
           {/* The "Become a Member" button in the mobile menu */}
           <a href="#membership" style={{
-            ...buttonGradientStyle, // Apply the primary gradient button style
-            display: 'block',
-            marginTop: '1.5rem', // Added some margin for spacing
-            width: '100%',
-            textAlign: 'center', // Center text for block button
+            ...buttonGradientStyle,
+            display: 'flex', // Changed from block
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '1.5rem',
+            width: 'auto', // Changed from 100%
+            maxWidth: '200px', // Max width
+            textAlign: 'center',
+            boxSizing: 'border-box'
           }}>
             Become a Member
           </a>

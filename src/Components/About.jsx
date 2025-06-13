@@ -6,6 +6,21 @@ import IAMPFooter from './IAMPFooter'; // Import the footer component
 const About = () => {
   const [scrollY, setScrollY] = useState(0);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Add mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile(); // Check on initial render
+    window.addEventListener('resize', checkMobile); // Add event listener
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile); // Clean up
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -106,15 +121,16 @@ const About = () => {
         display: 'flex',
         alignItems: 'center',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        paddingTop: isMobile ? '80px' : '0' // Add padding for mobile nav
       }}>
         {/* Animated Background Elements */}
         <div style={{
           position: 'absolute',
           top: '20%',
           right: '10%',
-          width: '300px',
-          height: '300px',
+          width: isMobile ? '150px' : '300px',
+          height: isMobile ? '150px' : '300px',
           background: 'radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%)',
           borderRadius: '50%',
           animation: 'float 6s ease-in-out infinite'
@@ -123,29 +139,37 @@ const About = () => {
           position: 'absolute',
           bottom: '20%',
           left: '5%',
-          width: '200px',
-          height: '200px',
+          width: isMobile ? '100px' : '200px',
+          height: isMobile ? '100px' : '200px',
           background: 'radial-gradient(circle, rgba(45, 53, 97, 0.3) 0%, transparent 70%)',
           borderRadius: '50%',
           animation: 'float 8s ease-in-out infinite reverse'
         }} />
         
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
+        <div style={{ 
+          maxWidth: '1400px', 
+          margin: '0 auto', 
+          padding: isMobile ? '0 1rem' : '0 2rem', 
+          display: 'grid', 
+          gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', 
+          gap: isMobile ? '2rem' : '4rem', 
+          alignItems: 'center' 
+        }}>
           <div>
             <h1 style={{
-              fontSize: '4rem',
+              fontSize: isMobile ? '2.5rem' : '4rem',
               fontWeight: 'bold',
               lineHeight: '1.1',
               marginBottom: '1rem',
               background: 'linear-gradient(135deg, #ffffff 0%, #00d4ff 50%, #0099cc 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              marginTop: '80px',
+              marginTop: isMobile ? '40px' : '80px',
             }}>
               Who We Are
             </h1>
             <h2 style={{
-              fontSize: '2rem',
+              fontSize: isMobile ? '1.5rem' : '2rem',
               color: '#00d4ff',
               marginBottom: '1rem',
               fontWeight: '600'
@@ -153,7 +177,7 @@ const About = () => {
               The International Association of Maritime Professionals
             </h2>
             <p style={{
-              fontSize: '1.2rem',
+              fontSize: isMobile ? '1.1rem' : '1.2rem',
               color: '#cbd5e0',
               marginBottom: '2rem',
               lineHeight: '1.6'
@@ -161,14 +185,19 @@ const About = () => {
               Since 2011, the International Association of Maritime Professionals (IAMP) has empowered a global network of over 118 maritime companies and experts.
             </p>
             <p style={{
-              fontSize: '1.1rem',
+              fontSize: isMobile ? '1rem' : '1.1rem',
               color: '#a0aec0',
               marginBottom: '3rem',
               lineHeight: '1.6'
             }}>
               We represent, connect, and support professionals across all sectors of the maritime industry – from port operations and shipping to offshore services and training.
             </p>
-            <div style={{ display: 'flex', gap: '1rem' }}>
+            <div style={{ 
+              display: 'flex', 
+              gap: '1rem', 
+              flexDirection: isMobile ? 'column' : 'row',
+              width: '100%'
+            }}>
               <button style={{
                 background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
                 border: 'none',
@@ -176,10 +205,11 @@ const About = () => {
                 borderRadius: '50px',
                 color: 'white',
                 fontWeight: 'bold',
-                fontSize: '1.1rem',
+                fontSize: isMobile ? '1rem' : '1.1rem',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                boxShadow: '0 4px 15px rgba(0, 212, 255, 0.3)'
+                boxShadow: '0 4px 15px rgba(0, 212, 255, 0.3)',
+                width: isMobile ? '100%' : 'auto'
               }}
               onMouseEnter={(e) => {
                 e.target.style.transform = 'translateY(-3px)';
@@ -198,10 +228,11 @@ const About = () => {
                 borderRadius: '50px',
                 color: 'white',
                 fontWeight: 'bold',
-                fontSize: '1.1rem',
+                fontSize: isMobile ? '1rem' : '1.1rem',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                backdropFilter: 'blur(10px)'
+                backdropFilter: 'blur(10px)',
+                width: isMobile ? '100%' : 'auto'
               }}
               onMouseEnter={(e) => {
                 e.target.style.borderColor = '#00d4ff';
@@ -222,18 +253,18 @@ const About = () => {
             <div style={{
               background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
               borderRadius: '20px',
-              padding: '2rem',
+              padding: isMobile ? '1.5rem' : '2rem',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
-              marginTop: '80px',
+              marginTop: isMobile ? '20px' : '80px',
             }}>
               <img 
                 src="https://mlyrfuhbfz4c.i.optimole.com/w:798/h:1080/q:mauto/ig:avif/https://ia-mp.org/wp-content/uploads/2025/04/Otavio-Ladder-pic-1135x1536-2.png"
                 alt="Maritime Professional"
                 style={{
                   width: '100%',
-                  height: '500px',
+                  height: isMobile ? '350px' : '500px',
                   objectFit: 'cover',
                   borderRadius: '15px'
                 }}
@@ -252,28 +283,48 @@ const About = () => {
         </style>
       </section>
 
-      {/* Why Join IAMP Section */}
-      <section id="about" style={{ padding: '6rem 0', position: 'relative' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
-          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+      {/* Why Join IAMP Section - Made Responsive */}
+      <section id="about" style={{ 
+        padding: isMobile ? '4rem 0' : '6rem 0', 
+        position: 'relative' 
+      }}>
+        <div style={{ 
+          maxWidth: '1400px', 
+          margin: '0 auto', 
+          padding: isMobile ? '0 1rem' : '0 2rem' 
+        }}>
+          <div style={{ textAlign: 'center', marginBottom: isMobile ? '3rem' : '4rem' }}>
             <h2 style={{
-              fontSize: '3rem',
+              fontSize: isMobile ? '2.25rem' : '3rem',
               fontWeight: 'bold',
               marginBottom: '1rem',
               background: 'linear-gradient(135deg, #ffffff, #00d4ff)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>Why Join IAMP?</h2>
-            <p style={{ fontSize: '1.2rem', color: '#a0aec0', maxWidth: '800px', margin: '0 auto' }}>
+            <p style={{ 
+              fontSize: isMobile ? '1.1rem' : '1.2rem', 
+              color: '#a0aec0', 
+              maxWidth: '800px', 
+              margin: '0 auto',
+              padding: isMobile ? '0 1rem' : 0
+            }}>
               Discover the benefits of joining our global maritime community and accelerate your professional growth.
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginBottom: '4rem' }}>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: isMobile 
+              ? '1fr' 
+              : 'repeat(auto-fit, minmax(300px, 1fr))', 
+            gap: isMobile ? '1.5rem' : '2rem', 
+            marginBottom: '4rem' 
+          }}>
             {whyJoinFeatures.map((item, index) => (
               <div key={index} style={{
                 background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(45, 53, 97, 0.1))',
-                padding: '2rem',
+                padding: isMobile ? '1.5rem' : '2rem',
                 borderRadius: '20px',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 backdropFilter: 'blur(20px)',
@@ -292,7 +343,13 @@ const About = () => {
                 <div style={{ color: '#00d4ff', marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
                   {item.icon}
                 </div>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>{item.title}</h3>
+                <h3 style={{ 
+                  fontSize: isMobile ? '1.3rem' : '1.5rem', 
+                  fontWeight: 'bold', 
+                  marginBottom: '0.5rem' 
+                }}>
+                  {item.title}
+                </h3>
                 <p style={{ color: '#a0aec0' }}>{item.description}</p>
               </div>
             ))}
@@ -300,24 +357,38 @@ const About = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section style={{ padding: '6rem 0', background: 'rgba(0, 0, 0, 0.2)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem', textAlign: 'center' }}>
+      {/* Testimonials Section - Made Responsive */}
+      <section style={{ 
+        padding: isMobile ? '4rem 0' : '6rem 0', 
+        background: 'rgba(0, 0, 0, 0.2)' 
+      }}>
+        <div style={{ 
+          maxWidth: '1400px', 
+          margin: '0 auto', 
+          padding: isMobile ? '0 1rem' : '0 2rem', 
+          textAlign: 'center' 
+        }}>
           <h2 style={{
-            fontSize: '3rem',
+            fontSize: isMobile ? '2.25rem' : '3rem',
             fontWeight: 'bold',
             marginBottom: '1rem',
             background: 'linear-gradient(135deg, #ffffff, #00d4ff)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
           }}>What Our Clients Are Saying</h2>
-          <p style={{ fontSize: '1.2rem', color: '#a0aec0', marginBottom: '3rem', maxWidth: '800px', margin: '0 auto 3rem' }}>
+          <p style={{ 
+            fontSize: isMobile ? '1.1rem' : '1.2rem', 
+            color: '#a0aec0', 
+            marginBottom: isMobile ? '2rem' : '3rem', 
+            maxWidth: '800px', 
+            margin: `0 auto ${isMobile ? '2rem' : '3rem'}` 
+          }}>
             Hear from our members about their experience with IAMP
           </p>
 
           <div style={{
             background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-            padding: '3rem',
+            padding: isMobile ? '2rem 1.5rem' : '3rem',
             borderRadius: '20px',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             backdropFilter: 'blur(20px)',
@@ -326,27 +397,48 @@ const About = () => {
           }}>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
               {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
-                <Star key={i} style={{ color: '#ffd700', width: '1.5rem', height: '1.5rem', fill: 'currentColor' }} />
+                <Star key={i} style={{ 
+                  color: '#ffd700', 
+                  width: isMobile ? '1.2rem' : '1.5rem', 
+                  height: isMobile ? '1.2rem' : '1.5rem',
+                  fill: 'currentColor' 
+                }} />
               ))}
             </div>
-            <p style={{ fontSize: '1.3rem', fontStyle: 'italic', marginBottom: '2rem', color: '#ffffff' }}>
+            <p style={{ 
+              fontSize: isMobile ? '1.1rem' : '1.3rem', 
+              fontStyle: 'italic', 
+              marginBottom: '2rem', 
+              color: '#ffffff' 
+            }}>
               "{testimonials[currentTestimonial].text}"
             </p>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              gap: '1rem',
+              flexDirection: isMobile ? 'column' : 'row'
+            }}>
               {testimonials[currentTestimonial].image && (
                 <img 
                   src={testimonials[currentTestimonial].image}
                   alt={testimonials[currentTestimonial].author}
                   style={{
-                    width: '60px',
-                    height: '60px',
+                    width: isMobile ? '50px' : '60px',
+                    height: isMobile ? '50px' : '60px',
                     borderRadius: '50%',
                     objectFit: 'cover'
                   }}
                 />
               )}
               <div>
-                <p style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{testimonials[currentTestimonial].author}</p>
+                <p style={{ 
+                  fontWeight: 'bold', 
+                  fontSize: isMobile ? '1rem' : '1.1rem' 
+                }}>
+                  {testimonials[currentTestimonial].author}
+                </p>
                 <p style={{ color: '#a0aec0' }}>{testimonials[currentTestimonial].company}</p>
               </div>
             </div>
@@ -372,28 +464,45 @@ const About = () => {
         </div>
       </section>
 
-      {/* Mission Section */}
-      <section id="mission" style={{ padding: '6rem 0' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
-          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+      {/* Mission Section - Made Responsive */}
+      <section id="mission" style={{ 
+        padding: isMobile ? '4rem 0' : '6rem 0' 
+      }}>
+        <div style={{ 
+          maxWidth: '1400px', 
+          margin: '0 auto', 
+          padding: isMobile ? '0 1rem' : '0 2rem' 
+        }}>
+          <div style={{ textAlign: 'center', marginBottom: isMobile ? '3rem' : '4rem' }}>
             <h2 style={{
-              fontSize: '3rem',
+              fontSize: isMobile ? '2.25rem' : '3rem',
               fontWeight: 'bold',
               marginBottom: '1rem',
               background: 'linear-gradient(135deg, #ffffff, #00d4ff)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>Our Mission</h2>
-            <p style={{ fontSize: '1.2rem', color: '#a0aec0', maxWidth: '800px', margin: '0 auto' }}>
+            <p style={{ 
+              fontSize: isMobile ? '1.1rem' : '1.2rem', 
+              color: '#a0aec0', 
+              maxWidth: '800px', 
+              margin: '0 auto' 
+            }}>
               At IAMP, our mission comes to life through impactful initiatives that strengthen global maritime standards.
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: isMobile 
+              ? '1fr' 
+              : 'repeat(auto-fit, minmax(300px, 1fr))', 
+            gap: isMobile ? '1.5rem' : '2rem' 
+          }}>
             {missionItems.map((item, index) => (
               <div key={index} style={{
                 background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-                padding: '2rem',
+                padding: isMobile ? '1.5rem' : '2rem',
                 borderRadius: '20px',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 backdropFilter: 'blur(20px)',
@@ -411,7 +520,13 @@ const About = () => {
                 <div style={{ color: '#00d4ff', marginBottom: '1rem' }}>
                   {item.icon}
                 </div>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>{item.title}</h3>
+                <h3 style={{ 
+                  fontSize: isMobile ? '1.3rem' : '1.5rem', 
+                  fontWeight: 'bold', 
+                  marginBottom: '1rem' 
+                }}>
+                  {item.title}
+                </h3>
                 <p style={{ color: '#a0aec0', lineHeight: '1.6' }}>{item.description}</p>
               </div>
             ))}
@@ -419,44 +534,82 @@ const About = () => {
         </div>
       </section>
 
-
-      {/* Contact Section */}
-      <section id="contact" style={{ padding: '6rem 0', background: 'rgba(0, 0, 0, 0.2)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
-          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+      {/* Contact Section - Made Responsive */}
+      <section id="contact" style={{ 
+        padding: isMobile ? '4rem 0' : '6rem 0', 
+        background: 'rgba(0, 0, 0, 0.2)' 
+      }}>
+        <div style={{ 
+          maxWidth: '1400px', 
+          margin: '0 auto', 
+          padding: isMobile ? '0 1rem' : '0 2rem' 
+        }}>
+          <div style={{ textAlign: 'center', marginBottom: isMobile ? '3rem' : '4rem' }}>
             <h2 style={{
-              fontSize: '3rem',
+              fontSize: isMobile ? '2.25rem' : '3rem',
               fontWeight: 'bold',
               marginBottom: '1rem',
               background: 'linear-gradient(135deg, #ffffff, #00d4ff)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>Contact Us</h2>
-            <p style={{ fontSize: '1.2rem', color: '#a0aec0', maxWidth: '800px', margin: '0 auto' }}>
+            <p style={{ 
+              fontSize: isMobile ? '1.1rem' : '1.2rem', 
+              color: '#a0aec0', 
+              maxWidth: '800px', 
+              margin: '0 auto' 
+            }}>
               Ready to join the global maritime community? Get in touch with us today.
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'start' }}>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', 
+            gap: isMobile ? '2rem' : '4rem', 
+            alignItems: 'start' 
+          }}>
             <div style={{
               background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-              padding: '3rem',
+              padding: isMobile ? '2rem' : '3rem',
               borderRadius: '20px',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(20px)'
             }}>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '2rem' }}>Get in Touch</h3>
+              <h3 style={{ 
+                fontSize: isMobile ? '1.3rem' : '1.5rem', 
+                fontWeight: 'bold', 
+                marginBottom: '2rem' 
+              }}>
+                Get in Touch
+              </h3>
               
               <div style={{ marginBottom: '2rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-                  <MapPin style={{ color: '#00d4ff', width: '1.5rem', height: '1.5rem' }} />
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: isMobile ? 'flex-start' : 'center', 
+                  gap: '1rem', 
+                  marginBottom: '1.5rem',
+                  flexDirection: isMobile ? 'column' : 'row'
+                }}>
+                  <MapPin style={{ 
+                    color: '#00d4ff', 
+                    width: '1.5rem', 
+                    height: '1.5rem',
+                    marginTop: isMobile ? '0.25rem' : '0'
+                  }} />
                   <div>
                     <p style={{ fontWeight: 'bold' }}>Address</p>
                     <p style={{ color: '#a0aec0' }}>71-75 Shelton Street, London, United Kingdom, WC2H 9JQ</p>
                   </div>
                 </div>
                 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '1rem', 
+                  marginBottom: '1.5rem' 
+                }}>
                   <Phone style={{ color: '#00d4ff', width: '1.5rem', height: '1.5rem' }} />
                   <div>
                     <p style={{ fontWeight: 'bold' }}>Phone</p>
@@ -476,12 +629,18 @@ const About = () => {
 
             <div style={{
               background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-              padding: '3rem',
+              padding: isMobile ? '2rem' : '3rem',
               borderRadius: '20px',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(20px)'
             }}>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '2rem' }}>Send us a Message</h3>
+              <h3 style={{ 
+                fontSize: isMobile ? '1.3rem' : '1.5rem', 
+                fontWeight: 'bold', 
+                marginBottom: '2rem' 
+              }}>
+                Send us a Message
+              </h3>
               
               <form style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <input
@@ -491,7 +650,7 @@ const About = () => {
                     background: 'rgba(255, 255, 255, 0.05)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
                     borderRadius: '10px',
-                    padding: '1rem',
+                    padding: isMobile ? '0.8rem' : '1rem',
                     color: 'white',
                     fontSize: '1rem'
                   }}
@@ -503,19 +662,19 @@ const About = () => {
                     background: 'rgba(255, 255, 255, 0.05)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
                     borderRadius: '10px',
-                    padding: '1rem',
+                    padding: isMobile ? '0.8rem' : '1rem',
                     color: 'white',
                     fontSize: '1rem'
                   }}
                 />
                 <textarea
                   placeholder="Your Message"
-                  rows="5"
+                  rows={isMobile ? "4" : "5"}
                   style={{
                     background: 'rgba(255, 255, 255, 0.05)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
                     borderRadius: '10px',
-                    padding: '1rem',
+                    padding: isMobile ? '0.8rem' : '1rem',
                     color: 'white',
                     fontSize: '1rem',
                     resize: 'vertical'
@@ -551,22 +710,21 @@ const About = () => {
         </div>
       </section>
 
-     
-      {/* Floating Action Button */}
+      {/* Floating Action Button - Made Responsive */}
       <div style={{
         position: 'fixed',
-        bottom: '2rem',
-        right: '2rem',
+        bottom: isMobile ? '1.5rem' : '2rem',
+        right: isMobile ? '1.5rem' : '2rem',
         zIndex: 1000
       }}>
         <button style={{
-          width: '60px',
-          height: '60px',
+          width: isMobile ? '50px' : '60px',
+          height: isMobile ? '50px' : '60px',
           borderRadius: '50%',
           background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
           border: 'none',
           color: 'white',
-          fontSize: '1.5rem',
+          fontSize: isMobile ? '1.25rem' : '1.5rem',
           cursor: 'pointer',
           boxShadow: '0 8px 25px rgba(0, 212, 255, 0.4)',
           transition: 'all 0.3s ease'
@@ -583,8 +741,20 @@ const About = () => {
           ↑
         </button>
       </div>
-       {/* Footer */}
-     <IAMPFooter />
+
+      {/* Footer */}
+      <IAMPFooter />
+      
+      {/* Add a global style for mobile */}
+      <style>
+        {`
+          @media (max-width: 768px) {
+            body {
+              overflow-x: hidden;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };

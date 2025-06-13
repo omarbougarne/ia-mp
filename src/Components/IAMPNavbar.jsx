@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Anchor, Menu, X, ChevronDown } from 'lucide-react';
+import { Anchor, Menu, X, ChevronDown, User, LogOut } from 'lucide-react';
 
-// 1. Define your button styles as a constant
+// Button styles (same as before)
 const buttonGradientStyle = {
   background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
   border: 'none',
@@ -12,25 +12,6 @@ const buttonGradientStyle = {
   cursor: 'pointer',
   transition: 'all 0.3s ease',
   boxShadow: '0 4px 15px rgba(0, 212, 255, 0.3)',
-  display: 'inline-flex', // Ensure content aligns
-  alignItems: 'center',
-  justifyContent: 'center',
-  textDecoration: 'none', // Important for <a> tags
-  whiteSpace: 'nowrap', // Prevent text wrap on button
-  fontSize: '1rem', // Added for consistency
-};
-
-// For a "Sign In" button that might be a transparent variant
-const signInButtonStyle = {
-  background: 'transparent',
-  border: '1px solid #00d4ff', // Border color from your gradient start
-  padding: '0.75rem 1.5rem',
-  borderRadius: '50px',
-  color: '#00d4ff', // Text color matching border
-  fontWeight: 'bold',
-  cursor: 'pointer',
-  transition: 'all 0.3s ease',
-  boxShadow: 'none', // No shadow for this variant
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -39,11 +20,56 @@ const signInButtonStyle = {
   fontSize: '1rem',
 };
 
+const signInButtonStyle = {
+  background: 'transparent',
+  border: '1px solid #00d4ff',
+  padding: '0.75rem 1.5rem',
+  borderRadius: '50px',
+  color: '#00d4ff',
+  fontWeight: 'bold',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  boxShadow: 'none',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textDecoration: 'none',
+  whiteSpace: 'nowrap',
+  fontSize: '1rem',
+  gap: '0.5rem',
+};
+
+const logoutButtonStyle = {
+  background: 'transparent',
+  border: '1px solid #ff4757',
+  padding: '0.75rem 1.5rem',
+  borderRadius: '50px',
+  color: '#ff4757',
+  fontWeight: 'bold',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  boxShadow: 'none',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textDecoration: 'none',
+  whiteSpace: 'nowrap',
+  fontSize: '1rem',
+  gap: '0.5rem',
+};
 
 const IAMPNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Check authentication status on component mount
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -51,21 +77,137 @@ const IAMPNavbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navigationItems = [
-    { label: 'Home', href: '/' },
-    { label: 'About Us', href: '/about' },
-    { label: 'Blog', href: '/blog' }, // Assuming this will be a link to blog
-    { label: 'Category', href: '/IAMPCategoriesPage' },
-    { label: 'Membership', href: '/membership' },
-    { label: 'Contact', href: '/IAMPContactPage' },
-    // Apply the new styles here
-    { label: 'Login', href: '/SignIn', isButton: true, buttonStyle: signInButtonStyle },
-    { label: 'Sign up', href: '/SignUp', isButton: true, buttonStyle: buttonGradientStyle }
-  ];
+  const checkAuthStatus = async () => {
+    try {
+      // Check if session exists by making a request with credentials (cookies)
+      const response = await fetch('http://localhost:5000/api/profile', {
+        method: 'GET',
+        credentials: 'include', // This includes cookies in the request
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setIsAuthenticated(true);
+        setUser(data.user);
+      } else {
+        setIsAuthenticated(false);
+        setUser(null);
+      }
+    } catch (error) {
+      console.error('Auth check failed:', error);
+      setIsAuthenticated(false);
+      setUser(null);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch('http://localhost:5000/api/logout', {
+        method: 'POST',
+        credentials: 'include', // Include cookies
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      // Update state regardless of API call result
+      setIsAuthenticated(false);
+      setUser(null);
+      setIsMenuOpen(false);
+      // Optionally redirect to home page
+      window.location.href = '/';
+    }
+  };
+
+  // Define navigation items based on authentication status
+  const getNavigationItems = () => {
+    const baseItems = [
+      { label: 'Home', href: '/' },
+      { label: 'About Us', href: '/about' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Category', href: '/IAMPCategoriesPage' },
+      { label: 'Membership', href: '/membership' },
+      { label: 'Contact', href: '/IAMPContactPage' },
+    ];
+
+    if (isAuthenticated) {
+      return [
+        ...baseItems,
+        { 
+          label: 'Profile', 
+          href: '/profile', 
+          isButton: true, 
+          buttonStyle: signInButtonStyle,
+          icon: User
+        },
+        { 
+          label: 'Logout', 
+          href: '#', 
+          isButton: true, 
+          buttonStyle: logoutButtonStyle,
+          icon: LogOut,
+          onClick: handleLogout
+        }
+      ];
+    } else {
+      return [
+        ...baseItems,
+        { label: 'Login', href: '/SignIn', isButton: true, buttonStyle: signInButtonStyle },
+        { label: 'Sign up', href: '/SignUp', isButton: true, buttonStyle: buttonGradientStyle }
+      ];
+    }
+  };
+
+  const navigationItems = getNavigationItems();
 
   const handleDropdownToggle = (index) => {
     setActiveDropdown(activeDropdown === index ? null : index);
   };
+
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <nav style={{
+        position: 'fixed',
+        top: 0,
+        width: '100%',
+        zIndex: 1000,
+        background: 'rgba(10, 14, 39, 0.95)',
+        backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+      }}>
+        <div style={{
+          maxWidth: '1400px',
+          margin: '0 auto',
+          padding: '1rem 2rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Anchor style={{ color: '#00d4ff', width: '2rem', height: '2rem' }} />
+            <span style={{
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+              background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>
+              IAMP
+            </span>
+          </div>
+          <div style={{ color: '#ffffff' }}>Loading...</div>
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <nav style={{
@@ -100,6 +242,20 @@ const IAMPNavbar = () => {
           </span>
         </div>
 
+        {/* User greeting for authenticated users (desktop only) */}
+        {isAuthenticated && user && window.innerWidth > 768 && (
+          <div style={{
+            color: '#ffffff',
+            fontSize: '0.9rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem'
+          }}>
+            <User size={16} style={{ color: '#00d4ff' }} />
+            Welcome, {user.firstName}!
+          </div>
+        )}
+
         {/* Desktop Navigation */}
         <div style={{
           display: window.innerWidth > 768 ? 'flex' : 'none',
@@ -108,38 +264,37 @@ const IAMPNavbar = () => {
         }}>
           {navigationItems.map((item, index) => (
             <div key={item.label} style={{ position: 'relative' }}>
-              {item.isButton ? ( // Check if it's a button item
-                <a
-                  href={item.href}
+              {item.isButton ? (
+                <button
+                  onClick={item.onClick || (() => window.location.href = item.href)}
                   style={{
-                    ...item.buttonStyle, // Apply the button style
-                    // Add hover/active styles if needed, or define them in buttonStyle
-                    // Example hover for gradient button:
-                    '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 6px 20px rgba(0, 212, 255, 0.4)' },
-                    // You'll need to use JavaScript for hover if not using styled components
-                    // or a CSS class for pseudo-classes
+                    ...item.buttonStyle,
                   }}
                   onMouseEnter={(e) => {
                     if (item.buttonStyle === buttonGradientStyle) {
                       e.currentTarget.style.transform = 'translateY(-2px)';
                       e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 212, 255, 0.4)';
                     } else if (item.buttonStyle === signInButtonStyle) {
-                       e.currentTarget.style.backgroundColor = 'rgba(0, 212, 255, 0.1)';
-                       e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.backgroundColor = 'rgba(0, 212, 255, 0.1)';
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                    } else if (item.buttonStyle === logoutButtonStyle) {
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 71, 87, 0.1)';
+                      e.currentTarget.style.transform = 'translateY(-2px)';
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (item.buttonStyle === buttonGradientStyle) {
                       e.currentTarget.style.transform = 'translateY(0)';
                       e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 212, 255, 0.3)';
-                    } else if (item.buttonStyle === signInButtonStyle) {
+                    } else {
                       e.currentTarget.style.backgroundColor = 'transparent';
                       e.currentTarget.style.transform = 'translateY(0)';
                     }
                   }}
                 >
+                  {item.icon && <item.icon size={16} />}
                   {item.label}
-                </a>
+                </button>
               ) : item.dropdown ? (
                 <div>
                   <button
@@ -170,7 +325,6 @@ const IAMPNavbar = () => {
                     }} />
                   </button>
 
-                  {/* Dropdown Menu */}
                   {activeDropdown === index && (
                     <div style={{
                       position: 'absolute',
@@ -263,6 +417,24 @@ const IAMPNavbar = () => {
           flexDirection: 'column',
           alignItems: 'center' // Center all content
         }}>
+          {/* User greeting for mobile */}
+          {isAuthenticated && user && (
+            <div style={{
+              color: '#ffffff',
+              fontSize: '0.9rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              marginBottom: '1rem',
+              padding: '0.5rem 1rem',
+              background: 'rgba(0, 212, 255, 0.1)',
+              borderRadius: '50px'
+            }}>
+              <User size={16} style={{ color: '#00d4ff' }} />
+              Welcome, {user.firstName}!
+            </div>
+          )}
+
           {navigationItems.map((item) => (
             <div key={item.label} style={{
               width: '100%', // Full container width
@@ -283,10 +455,10 @@ const IAMPNavbar = () => {
                     padding: '0.75rem 1.5rem', // Explicit padding
                     boxSizing: 'border-box'
                   }}
-                  onClick={() => setIsMenuOpen(false)}
                 >
+                  {item.icon && <item.icon size={16} />}
                   {item.label}
-                </a>
+                </button>
               ) : (
                 <a
                   href={item.href}

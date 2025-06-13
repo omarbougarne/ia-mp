@@ -17,6 +17,7 @@ import IAMPFooter from "./Components/IAMPFooter"
 import IAMPPricingPage from "./Components/IAMPPricingPage"
 import IAMPPartnersPage from "./Components/IAMPPartnersPage"
 import Membership from "./Components/Membership";
+import Profile from "./Components/Profile";
 
 function App() {
   return (
@@ -42,9 +43,9 @@ function App() {
       <Route path="/Membership" element={<Membership />} />
       <Route path="/blog" element={<IAMPBlogPage />} />
 
-      
+      <Route path="/profile" element={<Profile />} />
 
-      
+
       </Routes>
       </Router>
     </>

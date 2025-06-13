@@ -26,10 +26,49 @@ export default function SignIn() {
   // Handler functions unchanged
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Sign in attempt:', { email, password, rememberMe });
+    setIsLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/signin', {
+        method: 'POST',
+        credentials: 'include',
+                headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          rememberMe
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store session token and user data
+        localStorage.setItem('sessionToken', data.session_token);
+        localStorage.setItem('userData', JSON.stringify(data.user));
+        
+        setSuccess('Sign in successful! Redirecting...');
+        
+        // Redirect to profile page after 1 second
+        setTimeout(() => {
+          navigate('/profile');
+        }, 1000);
+      } else {
+        setError(data.error || 'Sign in failed');
+      }
+    } catch (error) {
+      setError('Network error. Please try again.');
+      console.error('Sign in error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleForgotPassword = (e) => {
+  const handleForgotPassword = async (e) => {
     e.preventDefault();
     console.log('Password reset requested for:', resetEmail);
     setResetEmailSent(true);
@@ -788,6 +827,6 @@ export default function SignIn() {
         `}
       </style>
     </div>
-    </div>
+    
   );
 }

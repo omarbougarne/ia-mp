@@ -16,7 +16,7 @@ import IAMPNavbar from "./Components/IAMPNavbar"
 import IAMPFooter from "./Components/IAMPFooter"
 import IAMPPricingPage from "./Components/IAMPPricingPage"
 import IAMPPartnersPage from "./Components/IAMPPartnersPage"
-import Membership from "./Components/Membership";
+import Membership from "./Components/membership";
 
 function App() {
   return (

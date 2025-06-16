@@ -1,7 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Anchor, Facebook, Youtube, Twitter } from 'lucide-react';
 
 const IAMPFooter = () => {
+  // Add this state and effect for responsive behavior
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Set initial value
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Clean up
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // Your existing code
   const navigationLinks = [
     { name: 'Home', href: '/' },
     { name: 'About Us', href: '/about' },
@@ -24,23 +45,17 @@ const IAMPFooter = () => {
       color: '#ffffff',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
-      {/* Newsletter Section */}
-   
       {/* Main Footer Content */}
-      <div style={{ padding: '3rem 0 1rem' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
+      <div style={{ padding: isMobile ? '2rem 0 1rem' : '3rem 0 1rem' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: isMobile ? '0 1rem' : '0 2rem' }}>
           <div style={{ 
             display: 'grid', 
-            gridTemplateColumns: '2fr 1fr 1fr 1.5fr', 
-            gap: '2rem', 
-            marginBottom: '2rem',
-            '@media (max-width: 768px)': {
-              gridTemplateColumns: '1fr',
-              gap: '2rem'
-            }
+            gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr 1fr 1.5fr', 
+            gap: isMobile ? '2.5rem' : '2rem', 
+            marginBottom: '2rem'
           }}>
             
-            {/* IAMP Logo and Description */}
+            {/* IAMP Logo and Description - unchanged */}
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
                 <Anchor style={{ color: '#00d4ff', width: '2rem', height: '2rem' }} />
@@ -74,7 +89,7 @@ const IAMPFooter = () => {
               </div>
             </div>
             
-            {/* Pages */}
+            {/* Pages - unchanged */}
             <div>
               <h4 style={{ 
                 fontSize: '1.2rem', 
@@ -112,7 +127,7 @@ const IAMPFooter = () => {
               </ul>
             </div>
 
-            {/* Discover our academy */}
+            {/* Discover our academy - unchanged */}
             <div>
               <h4 style={{ 
                 fontSize: '1.2rem', 
@@ -150,7 +165,7 @@ const IAMPFooter = () => {
               </ul>
             </div>
 
-            {/* Our information */}
+            {/* Our information - unchanged */}
             <div>
               <h4 style={{ 
                 fontSize: '1.2rem', 
@@ -215,7 +230,7 @@ const IAMPFooter = () => {
                 </div>
               </div>
 
-              {/* Social Media Icons */}
+              {/* Social Media Icons - unchanged */}
               <div style={{ display: 'flex', gap: '0.8rem' }}>
                 {[
                   { Icon: Facebook, color: '#1877f2', href: '#' },
@@ -254,15 +269,15 @@ const IAMPFooter = () => {
             </div>
           </div>
           
-          {/* Copyright Section */}
+          {/* Copyright Section - adjusted for mobile */}
           <div style={{
             borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-            paddingTop: '2rem',
+            paddingTop: isMobile ? '1.5rem' : '2rem',
             textAlign: 'center'
           }}>
             <p style={{ 
               color: '#a0aec0', 
-              marginBottom: '1rem',
+              marginBottom: isMobile ? '0.75rem' : '1rem',
               fontSize: '1rem'
             }}>
               © 2025 IAMP. All rights reserved.

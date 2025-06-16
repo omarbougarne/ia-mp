@@ -313,7 +313,7 @@ const IAMPHomepage = () => {
                 justifyContent: 'center',
                 textDecoration: 'none',
                 gap: '0.5rem',
-                width: isMobile ? '100%' : 'auto'
+                width: isMobile ? '85%' : 'auto'
               }}
               onMouseEnter={(e) => {
                 e.target.style.transform = 'translateY(-3px)';
@@ -369,7 +369,7 @@ const IAMPHomepage = () => {
                 src="https://i.pinimg.com/736x/e1/2b/27/e12b272ed309f9432f791340c4257a94.jpg"
                 alt="Maritime Professional"
                 style={{
-                  width: '100%',
+                  width: '20rem',
                   height: isMobile ? '300px' : '400px',
                   objectFit: 'cover',
                   borderRadius: '15px'
@@ -1087,7 +1087,7 @@ const IAMPHomepage = () => {
               borderRadius: '20px',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(20px)',
-              width: '300px'
+              width: '85%'
             }}>
               <h3 style={{ fontSize: isMobile ? '1.3rem' : '1.5rem', fontWeight: 'bold', marginBottom: isMobile ? '1.5rem' : '2rem' }}>Send us a Message</h3>
               
@@ -1101,7 +1101,7 @@ const IAMPHomepage = () => {
                     borderRadius: '10px',
                     padding: isMobile ? '0.75rem' : '1rem',
                     color: 'white',
-                    fontSize: isMobile ? '0.95rem' : '1rem'
+                    fontSize: isMobile ? '0.95rem' : '1rem',
                   }}
                 />
                 <input
@@ -1207,24 +1207,27 @@ const IAMPHomepage = () => {
           width: isMobile ? '50px' : '60px',
           height: isMobile ? '50px' : '60px',
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
           border: 'none',
+          background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
           color: 'white',
-          fontSize: isMobile ? '1.2rem' : '1.5rem',
+          fontWeight: 'bold',
+          fontSize: isMobile ? '1rem' : '1.2rem',
           cursor: 'pointer',
-          boxShadow: '0 8px 25px rgba(0, 212, 255, 0.4)',
-          transition: 'all 0.3s ease'
+          transition: 'all 0.3s ease',
+          boxShadow: '0 4px 15px rgba(0, 212, 255, 0.3)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
         onMouseEnter={(e) => {
-          e.target.style.transform = 'scale(1.1)';
-          e.target.style.boxShadow = '0 12px 35px rgba(0, 212, 255, 0.5)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.transform = 'scale(1)';
+          e.target.style.transform = 'translateY(-3px)';
           e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4)';
         }}
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          ↑
+        onMouseLeave={(e) => {
+          e.target.style.transform = 'translateY(0)';
+          e.target.style.boxShadow = '0 4px 15px rgba(0, 212, 255, 0.3)';
+        }}>
+          <ShoppingCart style={{ width: '1.5rem', height: '1.5rem' }} />
         </button>
       </div>
     </div>

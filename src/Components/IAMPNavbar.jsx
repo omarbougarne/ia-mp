@@ -402,7 +402,7 @@ const IAMPNavbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu - Keeping all elements but fixing alignment */}
+      {/* Mobile Menu */}
       {isMenuOpen && (
         <div style={{
           position: 'absolute',
@@ -412,10 +412,10 @@ const IAMPNavbar = () => {
           background: 'rgba(10, 14, 39, 0.98)',
           backdropFilter: 'blur(20px)',
           border: '1px solid rgba(255, 255, 255, 0.1)',
-          padding: '1rem 0', // Changed padding to vertical only
+          padding: '1rem 0',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center' // Center all content
+          alignItems: 'center'
         }}>
           {/* User greeting for mobile */}
           {isAuthenticated && user && (
@@ -437,22 +437,25 @@ const IAMPNavbar = () => {
 
           {navigationItems.map((item) => (
             <div key={item.label} style={{
-              width: '100%', // Full container width
+              width: '100%',
               display: 'flex',
-              justifyContent: 'center' // Center items horizontally
+              justifyContent: 'center'
             }}>
               {item.isButton ? (
-                <a
-                  href={item.href}
+                <button
+                  onClick={item.onClick || (() => {
+                    setIsMenuOpen(false);
+                    window.location.href = item.href;
+                  })}
                   style={{
                     ...item.buttonStyle,
-                    display: 'flex', // Changed from block
-                    justifyContent: 'center', // Center content
-                    alignItems: 'center', 
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     marginTop: '1rem',
-                    width: 'auto', // Changed from 100%
-                    maxWidth: '200px', // Added max width
-                    padding: '0.75rem 1.5rem', // Explicit padding
+                    width: 'auto',
+                    maxWidth: '200px',
+                    padding: '0.75rem 1.5rem',
                     boxSizing: 'border-box'
                   }}
                 >
@@ -468,57 +471,39 @@ const IAMPNavbar = () => {
                     color: '#ffffff',
                     textDecoration: 'none',
                     borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-                    width: '80%', // Added width for centering
-                    textAlign: 'center' // Center text
+                    width: '80%',
+                    textAlign: 'center'
                   }}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.label}
                 </a>
               )}
-              {item.dropdown && (
-                <div style={{ 
-                  paddingLeft: '1rem',
-                  width: '100%', // Full width 
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center' // Center dropdown items
-                }}>
-                  {item.dropdown.map((dropdownItem) => (
-                    <a
-                      key={dropdownItem.label}
-                      href={dropdownItem.href}
-                      style={{
-                        display: 'block',
-                        padding: '0.5rem 0',
-                        color: '#cccccc',
-                        textDecoration: 'none',
-                        fontSize: '0.9rem',
-                        textAlign: 'center' // Center text
-                      }}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {dropdownItem.label}
-                    </a>
-                  ))}
-                </div>
-              )}
             </div>
           ))}
-          {/* The "Become a Member" button in the mobile menu */}
-          <a href="#membership" style={{
-            ...buttonGradientStyle,
-            display: 'flex', // Changed from block
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: '1.5rem',
-            width: 'auto', // Changed from 100%
-            maxWidth: '200px', // Max width
-            textAlign: 'center',
-            boxSizing: 'border-box'
-          }}>
-            Become a Member
-          </a>
+
+          {/* Become a Member button (only show if not authenticated) */}
+          {!isAuthenticated && (
+            <button 
+              onClick={() => {
+                setIsMenuOpen(false);
+                window.location.href = '#membership';
+              }}
+              style={{
+                ...buttonGradientStyle,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: '1.5rem',
+                width: 'auto',
+                maxWidth: '200px',
+                textAlign: 'center',
+                boxSizing: 'border-box'
+              }}
+            >
+              Become a Member
+            </button>
+          )}
         </div>
       )}
 

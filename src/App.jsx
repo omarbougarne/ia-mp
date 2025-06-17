@@ -3,10 +3,6 @@ import './index.css';
 import { useState, useEffect } from 'react';
 import { Routes, Route, BrowserRouter as Router, useLocation } from "react-router-dom";
 
-import './index.css';
-import { useState, useEffect } from 'react';
-import { Routes, Route, BrowserRouter as Router, useLocation } from "react-router-dom";
-
 import IAMPHomepage from "./Components/IAMPHomepage";
 import About from "./Components/About"
 import SignIn from "./Components/SignIn"
@@ -23,7 +19,7 @@ import IAMPPricingPage from "./Components/IAMPPricingPage"
 import IAMPPartnersPage from "./Components/IAMPPartnersPage"
 import Membership from "./Components/Membership";
 import Profile from "./Components/Profile";
-import Loading from './Components/Loading'; // ✅ Import Loading
+import Loading from './Components/Loading';
 
 // Create a wrapper to monitor location changes
 const AppRoutes = () => {
@@ -56,24 +52,6 @@ const AppRoutes = () => {
         <Route path="/Membership" element={<Membership />} />
         <Route path="/blog" element={<IAMPBlogPage />} />
         <Route path="/profile" element={<Profile />} />
-      {loading && <Loading />}
-      <Routes>
-        <Route path="/" element={<IAMPHomepage />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/benefits" element={<Benefits />} />
-        <Route path="/our-history" element={<OurHistory />} />
-        <Route path="/admission-policy" element={<AdmissionPolicy />} />
-        <Route path="/IAMPContactPage" element={<IAMPContactPage />} />
-        <Route path="/IAMPNavbar" element={<IAMPNavbar />} />
-        <Route path="/IAMPCategoriesPage" element={<IAMPCategoriesPage />} />
-        <Route path="/IAMPFooter" element={<IAMPFooter />} />
-        <Route path="/Pricing" element={<IAMPPricingPage />} />
-        <Route path="/IAMPPartnersPage" element={<IAMPPartnersPage />} />
-        <Route path="/Membership" element={<Membership />} />
-        <Route path="/blog" element={<IAMPBlogPage />} />
-        <Route path="/profile" element={<Profile />} />
       </Routes>
     </>
   );
@@ -85,16 +63,6 @@ function App() {
       <AppRoutes />
     </Router>
   );
-    </>
-  );
 };
-
-function App() {
-  return (
-    <Router>
-      <AppRoutes />
-    </Router>
-  );
-}
 
 export default App;

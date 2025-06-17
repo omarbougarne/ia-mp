@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   FileText, 
   CheckCircle, 
@@ -15,37 +15,52 @@ import {
   CreditCard,
   Users
 } from 'lucide-react';
-import IAMPNavbar from './IAMPNavbar'; // Import the navbar component
-import IAMPFooter from './IAMPFooter'; // Import the footer component
+import IAMPNavbar from './IAMPNavbar';
+import IAMPFooter from './IAMPFooter';
+
 export default function AdmissionPolicy() {
+  // Add mobile detection
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    handleResize(); // Check on initial render
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Your existing data remains unchanged
   const policyItems = [
     {
       title: "Access to Events",
-      icon: <Shield style={{ width: '2rem', height: '2rem' }} />,
+      icon: <Shield style={{ width: isMobile ? '1.5rem' : '2rem', height: isMobile ? '1.5rem' : '2rem' }} />,
       description: "Admission is strictly limited to pre-registered individuals including members, invited guests, hosts, and IAMP board members. No walk-ins will be permitted without prior registration.",
       highlight: true
     },
     {
       title: "Guest Registration & Fees",
-      icon: <CreditCard style={{ width: '2rem', height: '2rem' }} />,
+      icon: <CreditCard style={{ width: isMobile ? '1.5rem' : '2rem', height: isMobile ? '1.5rem' : '2rem' }} />,
       description: "Non-members attending as guests are subject to a standard fee of $15, applicable for both online and in-person participation. Event organizers reserve the right to set or waive fees based on event type.",
       highlight: false
     },
     {
       title: "Identification Protocol",
-      icon: <FileText style={{ width: '2rem', height: '2rem' }} />,
+      icon: <FileText style={{ width: isMobile ? '1.5rem' : '2rem', height: isMobile ? '1.5rem' : '2rem' }} />,
       description: "All attendees must present a valid photo ID (passport, driver's license, or national ID). Business cards or digital identification may be accepted as alternatives for corporate guests.",
       highlight: false
     },
     {
       title: "Student Attendance",
-      icon: <GraduationCap style={{ width: '2rem', height: '2rem' }} />,
+      icon: <GraduationCap style={{ width: isMobile ? '1.5rem' : '2rem', height: isMobile ? '1.5rem' : '2rem' }} />,
       description: "Students are welcome to attend IAMP events upon pre-registration as Guests unless they hold active membership. Professional attire and respectful conduct are mandatory. Failure to comply may result in denied access.",
       highlight: false
     },
     {
       title: "Media Release & Consent",
-      icon: <Camera style={{ width: '2rem', height: '2rem' }} />,
+      icon: <Camera style={{ width: isMobile ? '1.5rem' : '2rem', height: isMobile ? '1.5rem' : '2rem' }} />,
       description: "By attending, participants grant IAMP permission to photograph or record them during the event. These materials may be used for promotional, educational, or archival purposes.",
       highlight: false
     }
@@ -80,17 +95,18 @@ export default function AdmissionPolicy() {
       overflow: 'hidden'
     }}>
       <div style={{
-        marginBottom:'200px'
-      }} 
-      > <IAMPNavbar /> 
+        marginBottom: isMobile ? '80px' : '200px'
+      }}> 
+        <IAMPNavbar /> 
       </div>
-      {/* Background Elements */}
+      
+      {/* Background Elements - responsive sizes */}
       <div style={{
         position: 'absolute',
         top: '10%',
         right: '10%',
-        width: '300px',
-        height: '300px',
+        width: isMobile ? '150px' : '300px',
+        height: isMobile ? '150px' : '300px',
         background: 'radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%)',
         borderRadius: '50%',
         animation: 'float 6s ease-in-out infinite'
@@ -99,23 +115,21 @@ export default function AdmissionPolicy() {
         position: 'absolute',
         bottom: '20%',
         left: '5%',
-        width: '200px',
-        height: '200px',
+        width: isMobile ? '100px' : '200px',
+        height: isMobile ? '100px' : '200px',
         background: 'radial-gradient(circle, rgba(45, 53, 97, 0.3) 0%, transparent 70%)',
         borderRadius: '50%',
         animation: 'float 8s ease-in-out infinite reverse'
       }} />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
-        {/* Hero Section */}
-        <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-          
-
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '0 1rem' : '0 2rem' }}>
+        {/* Hero Section - responsive text */}
+        <div style={{ textAlign: 'center', marginBottom: isMobile ? '3rem' : '5rem' }}>
           <h1 style={{
-            fontSize: '4rem',
+            fontSize: isMobile ? '2.5rem' : '4rem',
             fontWeight: 'bold',
             lineHeight: '1.1',
-            marginBottom: '1.5rem',
+            marginBottom: isMobile ? '1rem' : '1.5rem',
             background: 'linear-gradient(135deg, #ffffff 0%, #00d4ff 50%, #0099cc 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -123,7 +137,7 @@ export default function AdmissionPolicy() {
             Admission Policy
           </h1>
           <p style={{
-            fontSize: '1.3rem',
+            fontSize: isMobile ? '1.1rem' : '1.3rem',
             color: '#cbd5e0',
             maxWidth: '800px',
             margin: '0 auto',
@@ -133,17 +147,19 @@ export default function AdmissionPolicy() {
           </p>
         </div>
 
-        {/* Key Points Overview */}
+        {/* Key Points Overview - responsive grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '2rem',
-          marginBottom: '5rem'
+          gridTemplateColumns: isMobile 
+            ? 'repeat(auto-fit, minmax(150px, 1fr))' 
+            : 'repeat(auto-fit, minmax(250px, 1fr))',
+          gap: isMobile ? '1rem' : '2rem',
+          marginBottom: isMobile ? '3rem' : '5rem'
         }}>
           {keyPoints.map((point, index) => (
             <div key={index} style={{
               textAlign: 'center',
-              padding: '2rem',
+              padding: isMobile ? '1.5rem' : '2rem',
               background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
               borderRadius: '15px',
               border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -161,7 +177,7 @@ export default function AdmissionPolicy() {
               </div>
               <p style={{
                 color: '#cbd5e0',
-                fontSize: '1rem',
+                fontSize: isMobile ? '0.9rem' : '1rem',
                 fontWeight: '500',
                 lineHeight: '1.4'
               }}>
@@ -171,13 +187,13 @@ export default function AdmissionPolicy() {
           ))}
         </div>
 
-        {/* Policy Details */}
-        <div style={{ marginBottom: '5rem' }}>
+        {/* Policy Details - responsive */}
+        <div style={{ marginBottom: isMobile ? '3rem' : '5rem' }}>
           <h2 style={{
-            fontSize: '3rem',
+            fontSize: isMobile ? '2rem' : '3rem',
             fontWeight: 'bold',
             textAlign: 'center',
-            marginBottom: '3rem',
+            marginBottom: isMobile ? '2rem' : '3rem',
             background: 'linear-gradient(135deg, #ffffff 0%, #00d4ff 50%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -188,14 +204,14 @@ export default function AdmissionPolicy() {
           <div style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '2rem'
+            gap: isMobile ? '1.5rem' : '2rem'
           }}>
             {policyItems.map((policy, index) => (
               <div key={index} style={{
                 background: policy.highlight 
                   ? 'linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(45, 53, 97, 0.3))'
                   : 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-                padding: '3rem',
+                padding: isMobile ? '1.5rem' : '3rem',
                 borderRadius: '20px',
                 border: policy.highlight 
                   ? '2px solid #00d4ff'
@@ -204,7 +220,7 @@ export default function AdmissionPolicy() {
                 transition: 'transform 0.3s ease, box-shadow 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateX(10px)';
+                e.currentTarget.style.transform = isMobile ? 'translateY(-5px)' : 'translateX(10px)';
                 e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 212, 255, 0.2)';
               }}
               onMouseLeave={(e) => {
@@ -214,18 +230,31 @@ export default function AdmissionPolicy() {
                 <div style={{
                   display: 'flex',
                   alignItems: 'flex-start',
-                  gap: '2rem'
+                  gap: isMobile ? '1rem' : '2rem',
+                  flexDirection: isMobile ? 'column' : 'row'
                 }}>
-                  <div style={{ 
-                    color: '#00d4ff',
-                    flexShrink: 0,
-                    marginTop: '0.5rem'
-                  }}>
-                    {policy.icon}
-                  </div>
+                  {isMobile && (
+                    <div style={{ 
+                      color: '#00d4ff',
+                      marginBottom: '0.5rem'
+                    }}>
+                      {policy.icon}
+                    </div>
+                  )}
+                  
+                  {!isMobile && (
+                    <div style={{ 
+                      color: '#00d4ff',
+                      flexShrink: 0,
+                      marginTop: '0.5rem'
+                    }}>
+                      {policy.icon}
+                    </div>
+                  )}
+                  
                   <div>
                     <h3 style={{
-                      fontSize: '1.8rem',
+                      fontSize: isMobile ? '1.4rem' : '1.8rem',
                       fontWeight: 'bold',
                       margin: '0 0 1rem 0',
                       color: '#ffffff'
@@ -234,7 +263,7 @@ export default function AdmissionPolicy() {
                     </h3>
                     <p style={{
                       color: '#cbd5e0',
-                      fontSize: '1.1rem',
+                      fontSize: isMobile ? '1rem' : '1.1rem',
                       lineHeight: '1.6',
                       margin: 0
                     }}>
@@ -247,26 +276,26 @@ export default function AdmissionPolicy() {
           </div>
         </div>
 
-        {/* About IAMP Section */}
+        {/* About IAMP Section - responsive padding */}
         <div style={{
           background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-          padding: '4rem',
+          padding: isMobile ? '2rem 1.5rem' : '4rem',
           borderRadius: '20px',
           border: '1px solid rgba(255, 255, 255, 0.1)',
           backdropFilter: 'blur(20px)',
-          marginBottom: '3rem'
+          marginBottom: isMobile ? '2rem' : '3rem'
         }}>
           <h2 style={{
-            fontSize: '2.5rem',
+            fontSize: isMobile ? '1.8rem' : '2.5rem',
             fontWeight: 'bold',
-            marginBottom: '2rem',
+            marginBottom: isMobile ? '1.5rem' : '2rem',
             color: '#ffffff',
             textAlign: 'center'
           }}>
             About IAMP
           </h2>
           <p style={{
-            fontSize: '1.3rem',
+            fontSize: isMobile ? '1.1rem' : '1.3rem',
             color: '#cbd5e0',
             lineHeight: '1.7',
             textAlign: 'center',
@@ -278,17 +307,18 @@ export default function AdmissionPolicy() {
           </p>
         </div>
 
-        {/* Contact Section */}
+        {/* Contact Section - responsive layout */}
         <div style={{
           textAlign: 'center',
           background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-          padding: '3rem',
+          padding: isMobile ? '2rem 1.5rem' : '3rem',
           borderRadius: '20px',
           border: '1px solid rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(20px)'
+          backdropFilter: 'blur(20px)',
+          marginBottom: isMobile ? '3rem' : '5rem'
         }}>
           <h3 style={{
-            fontSize: '1.8rem',
+            fontSize: isMobile ? '1.5rem' : '1.8rem',
             fontWeight: 'bold',
             marginBottom: '1rem',
             color: '#ffffff'
@@ -296,7 +326,7 @@ export default function AdmissionPolicy() {
             Questions About Event Admission?
           </h3>
           <p style={{
-            fontSize: '1.1rem',
+            fontSize: isMobile ? '1rem' : '1.1rem',
             color: '#cbd5e0',
             marginBottom: '2rem'
           }}>
@@ -304,13 +334,14 @@ export default function AdmissionPolicy() {
           </p>
           <div style={{
             display: 'flex',
-            gap: '2rem',
+            gap: isMobile ? '1rem' : '2rem',
             justifyContent: 'center',
-            flexWrap: 'wrap'
+            flexDirection: isMobile ? 'column' : 'row',
+            flexWrap: isMobile ? 'nowrap' : 'wrap'
           }}>
             <div style={{
               background: 'rgba(0, 212, 255, 0.1)',
-              padding: '1rem 2rem',
+              padding: isMobile ? '0.75rem 1.5rem' : '1rem 2rem',
               borderRadius: '10px',
               border: '1px solid rgba(0, 212, 255, 0.3)'
             }}>
@@ -319,7 +350,7 @@ export default function AdmissionPolicy() {
             </div>
             <div style={{
               background: 'rgba(0, 212, 255, 0.1)',
-              padding: '1rem 2rem',
+              padding: isMobile ? '0.75rem 1.5rem' : '1rem 2rem',
               borderRadius: '10px',
               border: '1px solid rgba(0, 212, 255, 0.3)'
             }}>

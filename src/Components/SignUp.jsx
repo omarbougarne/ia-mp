@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Anchor, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, Users, Globe, User, Phone, Building, AlertCircle, Check, X } from 'lucide-react';
 import IAMPNavbar from './IAMPNavbar';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +24,19 @@ export default function SignUp() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  
+  // Add mobile detection
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    handleResize(); // Check on initial render
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -123,7 +136,7 @@ export default function SignUp() {
     navigate('/signin');
   };
 
-  // Success Modal Component
+  // Success Modal Component with responsiveness
   const SuccessModal = () => (
     <div style={{
       position: 'fixed',
@@ -141,9 +154,9 @@ export default function SignUp() {
       <div style={{
         background: 'linear-gradient(135deg, #1a1f3a 0%, #2d3561 100%)',
         borderRadius: '20px',
-        padding: '3rem',
+        padding: isMobile ? '2rem' : '3rem',
         maxWidth: '500px',
-        width: '90%',
+        width: isMobile ? '90%' : '80%',
         border: '1px solid rgba(0, 212, 255, 0.3)',
         boxShadow: '0 20px 50px rgba(0, 0, 0, 0.3)',
         position: 'relative',
@@ -174,18 +187,18 @@ export default function SignUp() {
           <div style={{
             background: 'rgba(0, 212, 255, 0.1)',
             borderRadius: '50%',
-            width: '80px',
-            height: '80px',
+            width: isMobile ? '60px' : '80px',
+            height: isMobile ? '60px' : '80px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: '1.5rem'
           }}>
-            <Check style={{ color: '#00d4ff', width: '40px', height: '40px' }} />
+            <Check style={{ color: '#00d4ff', width: isMobile ? '30px' : '40px', height: isMobile ? '30px' : '40px' }} />
           </div>
           
           <h2 style={{
-            fontSize: '1.8rem',
+            fontSize: isMobile ? '1.5rem' : '1.8rem',
             fontWeight: 'bold',
             marginBottom: '1rem',
             background: 'linear-gradient(135deg, #ffffff 0%, #00d4ff 50%)',
@@ -196,7 +209,7 @@ export default function SignUp() {
           </h2>
           
           <p style={{
-            fontSize: '1.1rem',
+            fontSize: isMobile ? '1rem' : '1.1rem',
             color: '#cbd5e0',
             marginBottom: '1.5rem',
             lineHeight: '1.6'
@@ -209,7 +222,8 @@ export default function SignUp() {
             display: 'flex',
             gap: '1rem',
             width: '100%',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            flexDirection: isMobile ? 'column' : 'row'
           }}>
             <button
               onClick={() => setShowSuccessModal(false)}
@@ -248,6 +262,7 @@ export default function SignUp() {
                 transition: 'all 0.3s ease',
                 display: 'flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: '0.5rem'
               }}
               onMouseEnter={(e) => {
@@ -287,13 +302,13 @@ export default function SignUp() {
       {/* Use the navbar component */}
       <IAMPNavbar />
       
-      {/* Animated Background Elements */}
+      {/* Animated Background Elements - smaller on mobile */}
       <div style={{
         position: 'absolute',
         top: '10%',
         right: '10%',
-        width: '300px',
-        height: '300px',
+        width: isMobile ? '150px' : '300px',
+        height: isMobile ? '150px' : '300px',
         background: 'radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%)',
         borderRadius: '50%',
         animation: 'float 6s ease-in-out infinite',
@@ -303,8 +318,8 @@ export default function SignUp() {
         position: 'absolute',
         bottom: '10%',
         left: '5%',
-        width: '200px',
-        height: '200px',
+        width: isMobile ? '120px' : '200px',
+        height: isMobile ? '120px' : '200px',
         background: 'radial-gradient(circle, rgba(45, 53, 97, 0.3) 0%, transparent 70%)',
         borderRadius: '50%',
         animation: 'float 8s ease-in-out infinite reverse'
@@ -313,27 +328,31 @@ export default function SignUp() {
         position: 'absolute',
         top: '50%',
         left: '0%',
-        width: '150px',
-        height: '150px',
+        width: isMobile ? '100px' : '150px',
+        height: isMobile ? '100px' : '150px',
         background: 'radial-gradient(circle, rgba(0, 212, 255, 0.05) 0%, transparent 70%)',
         borderRadius: '50%',
         animation: 'float 10s ease-in-out infinite'
       }} />
 
       <div style={{
-        display: 'grid',
+        display: isMobile ? 'flex' : 'grid',
         gridTemplateColumns: '1fr 1fr',
+        flexDirection: isMobile ? 'column' : 'row',
         maxWidth: '1400px',
         width: '100%',
         margin: '0 auto',
-        padding: '2rem',
-        gap: '4rem',
-        alignItems: 'center'
+        padding: isMobile ? '1rem 0.5rem 1rem 0' : '2rem',  // Added right padding on mobile
+        gap: isMobile ? '2rem' : '4rem',
+        alignItems: isMobile ? 'stretch' : 'center'
       }}>
         {/* Left Side - Branding and Info */}
-        <div style={{ padding: '2rem 0' }}>
+        <div style={{ 
+          padding: isMobile ? '1rem 0 1rem 0.75rem' : '2rem 0',  // Added left padding to move right
+          marginTop: isMobile ? '1.5rem' : '0'  // Push down from top on mobile
+        }}>
           <h1 style={{
-            fontSize: '3rem',
+            fontSize: isMobile ? '2.2rem' : '3rem',
             fontWeight: 'bold',
             lineHeight: '1.1',
             marginBottom: '1rem',
@@ -345,9 +364,9 @@ export default function SignUp() {
           </h1>
 
           <p style={{
-            fontSize: '1.2rem',
+            fontSize: isMobile ? '1.1rem' : '1.2rem',
             color: '#cbd5e0',
-            marginBottom: '2rem',
+            marginBottom: isMobile ? '1.5rem' : '2rem',
             lineHeight: '1.6'
           }}>
             Create your account and become part of the world's leading maritime professional network.
@@ -361,56 +380,58 @@ export default function SignUp() {
             ].map((item, index) => (
               <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <div style={{ color: '#00d4ff' }}>{item.icon}</div>
-                <span style={{ color: '#a0aec0', fontSize: '1.1rem' }}>{item.text}</span>
+                <span style={{ color: '#a0aec0', fontSize: isMobile ? '1rem' : '1.1rem' }}>{item.text}</span>
               </div>
             ))}
           </div>
 
-          <div style={{
-            marginTop: '3rem',
-            padding: '1.5rem',
-            background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(45, 53, 97, 0.1))',
-            borderRadius: '15px',
-            border: '1px solid rgba(255, 255, 255, 0.1)'
-          }}>
-            <p style={{ color: '#00d4ff', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-              Already have an account?
-            </p>
-            <button
-              onClick={goToSignIn}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#ffffff',
-                textDecoration: 'none',
-                fontSize: '1rem',
-                cursor: 'pointer',
-                transition: 'color 0.3s ease',
-                padding: 0
-              }}
-              onMouseEnter={(e) => e.target.style.color = '#00d4ff'}
-              onMouseLeave={(e) => e.target.style.color = '#ffffff'}
-            >
-              Sign in to your existing account →
-            </button>
-          </div>
+          {/* Only show this on desktop or at the bottom on mobile */}
+          {!isMobile && (
+            <div style={{
+              marginTop: '3rem',
+              padding: '1.5rem',
+              background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(45, 53, 97, 0.1))',
+              borderRadius: '15px',
+              border: '1px solid rgba(255, 255, 255, 0.1)'
+            }}>
+              <p style={{ color: '#00d4ff', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+                Already have an account?
+              </p>
+              <button
+                onClick={goToSignIn}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#ffffff',
+                  textDecoration: 'none',
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  transition: 'color 0.3s ease',
+                  padding: 0
+                }}
+                onMouseEnter={(e) => e.target.style.color = '#00d4ff'}
+                onMouseLeave={(e) => e.target.style.color = '#ffffff'}
+              >
+                Sign in to your existing account →
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Right Side - Sign Up Form */}
         <div style={{
           background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(45, 53, 97, 0.2))',
-          padding: '3rem',
+          padding: isMobile ? '1.5rem' : '3rem',
           borderRadius: '20px',
           border: '1px solid rgba(255, 255, 255, 0.1)',
           backdropFilter: 'blur(20px)',
           boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
-          maxHeight: '90vh',
-          overflowY: 'auto',
-          marginTop:'60px',
-          marginRight:'20px'
+          maxHeight: isMobile ? 'none' : '90vh',
+          overflowY: isMobile ? 'visible' : 'auto',
+          margin: isMobile ? '0' : '60px 20px 0 0'
         }}>
           <h2 style={{
-            fontSize: '2rem',
+            fontSize: isMobile ? '1.5rem' : '2rem',
             fontWeight: 'bold',
             marginBottom: '0.5rem',
             textAlign: 'center'
@@ -419,7 +440,8 @@ export default function SignUp() {
           <p style={{
             color: '#a0aec0',
             textAlign: 'center',
-            marginBottom: '2rem'
+            marginBottom: isMobile ? '1.5rem' : '2rem',
+            fontSize: isMobile ? '0.9rem' : '1rem'
           }}>
             Fill in your information to get started
           </p>
@@ -441,9 +463,13 @@ export default function SignUp() {
             </div>
           )}
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            {/* Name Fields */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '1rem' : '1.5rem' }}>
+            {/* Name Fields - Stack on small mobile */}
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: isMobile && window.innerWidth <= 480 ? '1fr' : '1fr 1fr', 
+              gap: '1rem' 
+            }}>
               <div>
                 <label style={{
                   display: 'block',
@@ -470,14 +496,14 @@ export default function SignUp() {
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
                     placeholder="First name"
                     style={{
-                      width: 'calc(100% - 2px)',
+                      width: '100%',
                       boxSizing: 'border-box',
                       background: 'rgba(255, 255, 255, 0.05)',
                       border: '1px solid rgba(255, 255, 255, 0.2)',
                       borderRadius: '10px',
-                      padding: '1rem 1rem 1rem 3rem',
+                      padding: isMobile ? '0.75rem 1rem 0.75rem 3rem' : '1rem 1rem 1rem 3rem',
                       color: 'white',
-                      fontSize: '1rem',
+                      fontSize: isMobile ? '0.95rem' : '1rem',
                       transition: 'all 0.3s ease'
                     }}
                     onFocus={(e) => {
@@ -518,14 +544,14 @@ export default function SignUp() {
                     onChange={(e) => handleInputChange('lastName', e.target.value)}
                     placeholder="Last name"
                     style={{
-                      width: 'calc(100% - 2px)',
+                      width: '100%',
                       boxSizing: 'border-box',
                       background: 'rgba(255, 255, 255, 0.05)',
                       border: '1px solid rgba(255, 255, 255, 0.2)',
                       borderRadius: '10px',
-                      padding: '1rem 1rem 1rem 3rem',
+                      padding: isMobile ? '0.75rem 1rem 0.75rem 3rem' : '1rem 1rem 1rem 3rem',
                       color: 'white',
-                      fontSize: '1rem',
+                      fontSize: isMobile ? '0.95rem' : '1rem',
                       transition: 'all 0.3s ease'
                     }}
                     onFocus={(e) => {
@@ -568,14 +594,14 @@ export default function SignUp() {
                   onChange={(e) => handleInputChange('email', e.target.value)}
                   placeholder="Enter your email"
                   style={{
-                    width: 'calc(100% - 2px)',
+                    width: '100%',
                     boxSizing: 'border-box',
                     background: 'rgba(255, 255, 255, 0.05)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
                     borderRadius: '10px',
-                    padding: '1rem 1rem 1rem 3rem',
+                    padding: isMobile ? '0.75rem 1rem 0.75rem 3rem' : '1rem 1rem 1rem 3rem',
                     color: 'white',
-                    fontSize: '1rem',
+                    fontSize: isMobile ? '0.95rem' : '1rem',
                     transition: 'all 0.3s ease'
                   }}
                   onFocus={(e) => {
@@ -590,8 +616,12 @@ export default function SignUp() {
               </div>
             </div>
 
-            {/* Phone and Company Fields */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            {/* Phone and Company Fields - Stack on small mobile */}
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: isMobile && window.innerWidth <= 480 ? '1fr' : '1fr 1fr', 
+              gap: '1rem' 
+            }}>
               <div>
                 <label style={{
                   display: 'block',
@@ -618,14 +648,14 @@ export default function SignUp() {
                     onChange={(e) => handleInputChange('phone', e.target.value)}
                     placeholder="Phone number"
                     style={{
-                      width: 'calc(100% - 2px)',
+                      width: '100%',
                       boxSizing: 'border-box',
                       background: 'rgba(255, 255, 255, 0.05)',
                       border: '1px solid rgba(255, 255, 255, 0.2)',
                       borderRadius: '10px',
-                      padding: '1rem 1rem 1rem 3rem',
+                      padding: isMobile ? '0.75rem 1rem 0.75rem 3rem' : '1rem 1rem 1rem 3rem',
                       color: 'white',
-                      fontSize: '1rem',
+                      fontSize: isMobile ? '0.95rem' : '1rem',
                       transition: 'all 0.3s ease'
                     }}
                     onFocus={(e) => {
@@ -666,14 +696,14 @@ export default function SignUp() {
                     onChange={(e) => handleInputChange('company', e.target.value)}
                     placeholder="Your company"
                     style={{
-                      width: 'calc(100% - 2px)',
+                      width: '100%',
                       boxSizing: 'border-box',
                       background: 'rgba(255, 255, 255, 0.05)',
                       border: '1px solid rgba(255, 255, 255, 0.2)',
                       borderRadius: '10px',
-                      padding: '1rem 1rem 1rem 3rem',
+                      padding: isMobile ? '0.75rem 1rem 0.75rem 3rem' : '1rem 1rem 1rem 3rem',
                       color: 'white',
-                      fontSize: '1rem',
+                      fontSize: isMobile ? '0.95rem' : '1rem',
                       transition: 'all 0.3s ease'
                     }}
                     onFocus={(e) => {
@@ -716,14 +746,14 @@ export default function SignUp() {
                   onChange={(e) => handleInputChange('password', e.target.value)}
                   placeholder="Create password"
                   style={{
-                    width: 'calc(100% - 2px)',
+                    width: '100%',
                     boxSizing: 'border-box',
                     background: 'rgba(255, 255, 255, 0.05)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
                     borderRadius: '10px',
-                    padding: '1rem 3rem 1rem 3rem',
+                    padding: isMobile ? '0.75rem 3rem 0.75rem 3rem' : '1rem 3rem 1rem 3rem',
                     color: 'white',
-                    fontSize: '1rem',
+                    fontSize: isMobile ? '0.95rem' : '1rem',
                     transition: 'all 0.3s ease'
                   }}
                   onFocus={(e) => {
@@ -783,14 +813,14 @@ export default function SignUp() {
                   onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
                   placeholder="Confirm password"
                   style={{
-                    width: 'calc(100% - 2px)',
+                    width: '100%',
                     boxSizing: 'border-box',
                     background: 'rgba(255, 255, 255, 0.05)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
                     borderRadius: '10px',
-                    padding: '1rem 3rem 1rem 3rem',
+                    padding: isMobile ? '0.75rem 3rem 0.75rem 3rem' : '1rem 3rem 1rem 3rem',
                     color: 'white',
-                    fontSize: '1rem',
+                    fontSize: isMobile ? '0.95rem' : '1rem',
                     transition: 'all 0.3s ease'
                   }}
                   onFocus={(e) => {
@@ -871,11 +901,11 @@ export default function SignUp() {
               style={{
                 background: loading ? '#a0aec0' : 'linear-gradient(135deg, #00d4ff, #0099cc)',
                 border: 'none',
-                padding: '1rem 2rem',
+                padding: isMobile ? '0.75rem 1.5rem' : '1rem 2rem',
                 borderRadius: '10px',
                 color: 'white',
                 fontWeight: 'bold',
-                fontSize: '1rem',
+                fontSize: isMobile ? '0.95rem' : '1rem',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 transition: 'all 0.3s ease',
                 display: 'flex',
@@ -902,7 +932,7 @@ export default function SignUp() {
               {!loading && <ArrowRight style={{ width: '1.2rem', height: '1.2rem' }} />}
             </button>
 
-            {/* Sign In Link */}
+            {/* Sign In Link - Only show on mobile */}
             <div style={{ textAlign: 'center', marginTop: '1rem' }}>
               <span style={{ color: '#a0aec0', fontSize: '0.9rem' }}>
                 Already have an account?{' '}

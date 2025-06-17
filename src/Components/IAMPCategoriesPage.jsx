@@ -1,4 +1,6 @@
 "use client"
+import IAMPNavbar from './IAMPNavbar'; // Import the navbar component
+import IAMPFooter from './IAMPFooter'; // Import the footer component
 import { useState, useEffect } from "react"
 import {
   Star,
@@ -202,6 +204,7 @@ const IAMPCategoriesPage = () => {
 
   return (
     <div className="categories-page">
+      <IAMPNavbar />
       {/* Animated Background Elements */}
       <div className="bg-element bg-element-1" />
       <div className="bg-element bg-element-2" />
@@ -1444,6 +1447,7 @@ const IAMPCategoriesPage = () => {
           }
         }
       `}</style>
+       <IAMPFooter />
     </div>
   )
 }

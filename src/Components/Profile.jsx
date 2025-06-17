@@ -259,7 +259,8 @@ export default function Profile() {
           border: '1px solid rgba(255, 255, 255, 0.1)',
           backdropFilter: 'blur(20px)',
           boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
-          marginBottom: '2rem'
+          marginBottom: '2rem', 
+          marginTop:'2rem', 
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
             <div>
@@ -357,27 +358,7 @@ export default function Profile() {
                 </>
               )}
 
-              <button
-                onClick={handleLogout}
-                style={{
-                  background: 'rgba(239, 68, 68, 0.2)',
-                  border: '1px solid rgba(239, 68, 68, 0.3)',
-                  padding: '0.75rem 1.5rem',
-                  borderRadius: '10px',
-                  color: '#ef4444',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => e.target.style.transform = 'translateY(-2px)'}
-                onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-              >
-                <LogOut style={{ width: '1rem', height: '1rem' }} />
-                Logout
-              </button>
+             
             </div>
           </div>
 

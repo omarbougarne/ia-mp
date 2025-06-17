@@ -17,12 +17,11 @@ import IAMPNavbar from "./Components/IAMPNavbar"
 import IAMPFooter from "./Components/IAMPFooter"
 import IAMPPricingPage from "./Components/IAMPPricingPage"
 import IAMPPartnersPage from "./Components/IAMPPartnersPage"
-import Membership from "./Components/membership";
-
-function App() {
-import Membership from "./Components/membership";
+import Membership from "./Components/Membership";
 import Profile from "./Components/Profile";
 import Loading from './Components/Loading'; // ✅ Import Loading
+
+function App() {
 
 // Create a wrapper to monitor location changes
 const AppRoutes = () => {
@@ -67,5 +66,5 @@ function App() {
     </Router>
   );
 }
-
+}
 export default App;
